@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: white;
+}
+
+body.inverted {
+  filter: invert(100%);
+  background: black; /* for rubber scroll in iOS */
+}

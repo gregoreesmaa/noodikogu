@@ -1,0 +1,35 @@
+.app {
+  text-align: center;
+  background-color: white;
+  min-height: 100vh;
+}
+
+#menuburger {
+  position: fixed;
+  left: 0;
+  color: black;
+  z-index: 2;
+}
+
+.search {
+  width: 80%;
+}
+
+.scoreView {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.scoreView img {
+  transition: all 1s;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+@media (min-width: 100vh) {
+  .scoreView img {
+    max-height: 100vh;
+  }
+}
