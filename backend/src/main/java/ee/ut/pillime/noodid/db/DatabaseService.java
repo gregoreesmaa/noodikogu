@@ -55,8 +55,16 @@ public class DatabaseService {
     }
 
     public List<Partituur> otsiPartituur(String osa) {
+
         return StreamSupport.stream(getPartituurid().spliterator(), false)
                 .filter(partituur -> partituur.getNimi().toLowerCase().contains(osa.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Repertuaar> otsiRepertuaar(String osa) {
+
+        return StreamSupport.stream(getRepertuaarid().spliterator(), false)
+                .filter(repertuaar -> repertuaar.getNimi().toLowerCase().contains(osa.toLowerCase()))
                 .collect(Collectors.toList());
     }
 

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping
@@ -47,8 +48,10 @@ public class API {
     }
 
     @GetMapping("/otsi/{osa}")
-    private List<Partituur> otsiMidagi(@PathVariable String osa) {
-        return databaseService.otsiPartituur(osa);
+    private Object otsiMidagi(@PathVariable String osa) {
+        return Map.<String, List>of(
+                "repertuaarid", databaseService.otsiRepertuaar(osa),
+                "partituurid", databaseService.otsiPartituur(osa));
     }
 
     @GetMapping("/partiid/{partii}")
