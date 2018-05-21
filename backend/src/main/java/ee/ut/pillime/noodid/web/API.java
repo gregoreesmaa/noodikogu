@@ -10,14 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping
 @RequiredArgsConstructor
 @CrossOrigin
 public class API {
 
     private final DatabaseService databaseService;
 
-    @GetMapping("/kaalikas")
+    @GetMapping("/api/kaalikas")
     private Object getKaalikas() {
         List<User> users = new ArrayList<>();
         for (User u : databaseService.getUsers()) {
@@ -26,7 +25,7 @@ public class API {
         return users;
     }
 
-    @GetMapping("/pillimehed")
+    @GetMapping("/api/pillimehed")
     private Object getPillimees() {
         List<Pillimees> pillimehed = new ArrayList<>();
         for (Pillimees p : databaseService.getPillimehed())
@@ -34,7 +33,7 @@ public class API {
         return pillimehed;
     }
 
-    @GetMapping("/repertuaarid")
+    @GetMapping("/api/repertuaarid")
     private Object getRepertuaar() {
         List<Repertuaar> repertuaarid = new ArrayList<>();
         for (Repertuaar r : databaseService.getRepertuaarid())
@@ -42,24 +41,24 @@ public class API {
         return repertuaarid;
     }
 
-    @GetMapping("/repertuaarid/{repertuaar}")
+    @GetMapping("/api/repertuaarid/{repertuaar}")
     private Object getPartituurid(@PathVariable int repertuaar) {
         return databaseService.getRepertuaar(repertuaar).map(r -> r.getPartituurid()).orElse(null);
     }
 
-    @GetMapping("/otsi/{osa}")
+    @GetMapping("/api/otsi/{osa}")
     private Object otsiMidagi(@PathVariable String osa) {
         return Map.<String, List>of(
                 "repertuaarid", databaseService.otsiRepertuaar(osa),
                 "partituurid", databaseService.otsiPartituur(osa));
     }
 
-    @GetMapping("/partiid/{partii}")
+    @GetMapping("/api/partiid/{partii}")
     private Partii otsiPartii(@PathVariable int partii) {
         return databaseService.otsiPartii(partii);
     }
 
-    @GetMapping("/pdf2svg/{failinimi}")
+    @GetMapping("/api/pdf2svg/{failinimi}")
     private void pdf2svg(@PathVariable String failinimi) {
         try {
             ProcessBuilder pb = new ProcessBuilder("pdf2svg\\pdf2svg",
