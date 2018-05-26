@@ -12,7 +12,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import BrightnessMediumIcon from '@material-ui/icons/BrightnessMedium';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {Link} from 'react-router-dom';
-import {Theme} from '../Context';
+import {AppContext} from '../Context';
 
 export default class Menu extends Component {
 
@@ -30,7 +30,15 @@ export default class Menu extends Component {
   };
 
   render() {
-    const generalItems = (
+    const userHeader = (user) => (
+      <div>
+        <ListItem>
+          <ListItemText primary={user.pillimees.nimi}/>
+        </ListItem>
+      </div>
+    );
+
+    const generalItems = (invertTheme) => (
       <div>
         <ListItem button component={Link} to='/'>
           <ListItemIcon>
@@ -44,23 +52,17 @@ export default class Menu extends Component {
           </ListItemIcon>
           <ListItemText primary="Noot"/>
         </ListItem>
-        <Theme.Consumer>
-          {
-            ({invert}) => (
-              <ListItem button onClick={invert}>
-                <ListItemIcon>
-                  <BrightnessMediumIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Taustavalgus"/>
-              </ListItem>
-            )
-          }
-        </Theme.Consumer>
+        <ListItem button onClick={invertTheme}>
+          <ListItemIcon>
+            <BrightnessMediumIcon/>
+          </ListItemIcon>
+          <ListItemText primary="Taustavalgus"/>
+        </ListItem>
       </div>
     );
-    const otherItems = (
+    const otherItems = (logout) => (
       <div>
-        <ListItem button>
+        <ListItem button onClick={logout}>
           <ListItemIcon>
             <ExitToAppIcon/>
           </ListItemIcon>
@@ -68,33 +70,36 @@ export default class Menu extends Component {
         </ListItem>
       </div>
     );
-    const sideList = (
-      <div>
-        <List>{generalItems}</List>
-        <Divider/>
-        <List>{otherItems}</List>
-      </div>
-    );
     return (
-      <div>
-        <IconButton
-          id="menuburger"
-          color="inherit"
-          aria-label="open drawer"
-          onClick={() => this.setOpen(true)}>
-          <MenuIcon/>
-        </IconButton>
-        <Drawer open={this.state.open} onClose={() => this.setOpen(false)}>
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={() => this.setOpen(false)}
-            onKeyDown={() => this.setOpen(false)}
-          >
-            {sideList}
+      <AppContext.Consumer>
+        {({user, invertTheme, logout}) => user ? (
+          <div>
+            <IconButton
+              id="menuburger"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={() => this.setOpen(true)}>
+              <MenuIcon/>
+            </IconButton>
+            <Drawer open={this.state.open} onClose={() => this.setOpen(false)}>
+              <div
+                tabIndex={0}
+                role="button"
+                onClick={() => this.setOpen(false)}
+                onKeyDown={() => this.setOpen(false)}
+              >
+                <div>
+                  <List>{userHeader(user)}</List>
+                  <Divider/>
+                  <List>{generalItems(invertTheme)}</List>
+                  <Divider/>
+                  <List>{otherItems(logout)}</List>
+                </div>
+              </div>
+            </Drawer>
           </div>
-        </Drawer>
-      </div>
+        ) : (<div/>)}
+      </AppContext.Consumer>
     );
   }
 

@@ -33,3 +33,15 @@
     max-height: 100vh;
   }
 }
+
+.loginForm {
+  width: 200px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loginForm div {
+  margin-top: 0;
+}

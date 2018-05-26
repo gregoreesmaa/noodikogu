@@ -12,8 +12,8 @@ import PartituurItem from "./PartituurItem";
 
 export default class RepertuaarItem extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       open: false

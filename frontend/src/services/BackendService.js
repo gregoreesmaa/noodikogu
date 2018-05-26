@@ -1,7 +1,9 @@
 import Axios from "axios/index";
+import Constants from "../Constants";
 
-const api = Axios.create({baseURL: 'http://192.168.1.154:8080/'});
+const api = Axios.create({baseURL: Constants.SERVER_URL + '/api', withCredentials: true});
 export default {
+  api,
   getRepertuaarid: () => api.get('repertuaarid'),
   getRepertuaar: (id) => api.get('repertuaarid/' + id),
   search: (query) => api.get('otsi/' + encodeURIComponent(query))

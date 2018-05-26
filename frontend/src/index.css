@@ -5,6 +5,10 @@ body {
   background: white;
 }
 
+body.loaded {
+  transition: filter 0.5s;
+}
+
 body.inverted {
   filter: invert(100%);
   background: black; /* for rubber scroll in iOS */

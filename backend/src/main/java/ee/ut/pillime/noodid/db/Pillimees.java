@@ -1,6 +1,5 @@
 package ee.ut.pillime.noodid.db;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
@@ -15,6 +14,10 @@ public class Pillimees {
     int id;
     String nimi;
     String kontaktinfo;
+
+    @OneToOne(mappedBy = "pillimees")
+    @JsonIgnoreProperties({"pillimees"})
+    User kasutaja;
 
     @ManyToMany
     @JsonIgnoreProperties({"pillimehed", "partiid"})

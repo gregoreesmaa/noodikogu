@@ -2,7 +2,10 @@ package ee.ut.pillime.noodid.web;
 
 import ee.ut.pillime.noodid.db.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(allowCredentials = "true")
 @RequiredArgsConstructor
-@CrossOrigin
 public class API {
 
     private final DatabaseService databaseService;
@@ -73,7 +76,6 @@ public class API {
             e.printStackTrace();
         }
     }
-
 
     /*private Map<String, String> personalcodes = Map.of("kristjan", "39803142763", "gregor", "39806170815");
 

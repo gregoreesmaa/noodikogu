@@ -4,7 +4,6 @@ import ee.ut.pillime.noodid.db.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +27,10 @@ public class DatabaseService {
 
     public Iterable<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    public Optional<User> getUser(String kasutajanimi) {
+        return userRepository.findByKasutajanimi(kasutajanimi);
     }
 
     public Iterable<Pillimees> getPillimehed() {
@@ -71,4 +74,5 @@ public class DatabaseService {
     public Partii otsiPartii(int id) {
         return partiiRepository.findById(id).orElse(null);
     }
+
 }

@@ -27,8 +27,11 @@ export default class Noodikogu extends Component {
       }
       BackendService.search(searchText)
         .then(response => {
+          let {partituurid, repertuaarid} = response.data;
+          partituurid.forEach(partituur => partituur.type = 'partituur');
+          repertuaarid.forEach(repertuaar => repertuaar.type = 'repertuaar');
           this.setState({
-            search: response.data
+            search: partituurid.concat(repertuaarid).sort((a, b) => a.nimi < b.nimi ? -1 : (a.nimi > b.nimi ? 1 : 0))
           });
         });
     } else if (searchText.length === 0) {
@@ -50,11 +53,12 @@ export default class Noodikogu extends Component {
           onChange={this.search}
         />
         <List component="nav">
-          {this.state.search ? this.state.search.map((item, index) => (
-            <PartituurItem key={index} obj={item}/>
-          )) : this.state.repertuaarid.map((item, index) => (
-            <RepertuaarItem key={index} obj={item}/>
-          ))}
+          {this.state.search
+            ? this.state.search.map((item, index) => item.type === 'partituur'
+              ? (<PartituurItem key={index} obj={item}/>)
+              : (<RepertuaarItem key={index} obj={item}/>))
+            : this.state.repertuaarid.map((item, index) =>
+              (<RepertuaarItem key={index} obj={item}/>))}
         </List>
       </div>);
   }
