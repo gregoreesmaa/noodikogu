@@ -12,7 +12,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import BrightnessMediumIcon from '@material-ui/icons/BrightnessMedium';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {Link} from 'react-router-dom';
-import {AppContext} from '../Context';
+import {AppContext} from '../Common';
 
 export default class Menu extends Component {
 
@@ -46,7 +46,7 @@ export default class Menu extends Component {
           </ListItemIcon>
           <ListItemText primary="Noodikogu"/>
         </ListItem>
-        <ListItem button component={Link} to='/noot'>
+        <ListItem button component={Link} to='/piece'>
           <ListItemIcon>
             <MusicNoteIcon/>
           </ListItemIcon>

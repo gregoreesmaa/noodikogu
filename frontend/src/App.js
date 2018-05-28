@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import './App.css';
 import Menu from './components/Menu';
-import {Route, Switch, withRouter} from 'react-router-dom';
-import Noodikogu from './pages/Noodikogu';
-import Noot from './pages/Noot';
+import {Switch, withRouter} from 'react-router-dom';
+import Library from './pages/Library';
+import Piece from './pages/Piece';
 import Login from './pages/Login';
-import {AppContext} from './Context';
+import {AppContext, PropsRoute} from './Common';
 import BackendService from "./services/BackendService";
 import Snackbar from '@material-ui/core/Snackbar';
 
@@ -44,7 +44,7 @@ class App extends Component {
     if (localStorage.getItem('inverted') === 'true') {
       this.state.invertTheme();
     }
-    setTimeout(()=>document.body.classList.toggle('loaded', true), 1000);
+    setTimeout(() => document.body.classList.toggle('loaded', true), 1000);
     if (!this.state.user) {
       this.props.history.push('/login');
     }
@@ -72,9 +72,9 @@ class App extends Component {
           <Menu/>
           <main>
             <Switch>
-              <Route exact path='/' component={Noodikogu}/>
-              <Route exact path='/noot' component={Noot}/>
-              <Route exact path='/login' component={Login}/>
+              <PropsRoute exact path='/' component={Library}/>
+              <PropsRoute exact path='/piece' component={Piece} score={this.state.selectedScore}/>
+              <PropsRoute exact path='/login' component={Login}/>
             </Switch>
           </main>
         </div>

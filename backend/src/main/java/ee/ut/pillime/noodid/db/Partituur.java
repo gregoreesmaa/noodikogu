@@ -1,5 +1,6 @@
 package ee.ut.pillime.noodid.db;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
@@ -23,6 +24,6 @@ public class Partituur {
     List<Repertuaar> repertuaarid;
 
     @OneToMany(mappedBy = "partituur")
-    @JsonIgnoreProperties({"partituur", "pillirühmad"})
+    @JsonIgnore
     List<Partii> partiid;
 }

@@ -7,10 +7,10 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
-import PartituurItem from "./PartituurItem";
+import PieceItem from "./PieceItem";
 
 
-export default class RepertuaarItem extends Component {
+export default class PlaylistItem extends Component {
 
   constructor(props) {
     super(props);
@@ -38,7 +38,7 @@ export default class RepertuaarItem extends Component {
           <List component="div" disablePadding>
             {
               this.props.obj.partituurid.map((partituur, index) => (
-                <PartituurItem key={index} obj={partituur}/>
+                <PieceItem key={index} obj={partituur}/>
               ))
             }
           </List>

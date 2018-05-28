@@ -1,15 +1,18 @@
 package ee.ut.pillime.noodid.auth;
 
-import ee.ut.pillime.noodid.db.DatabaseService;
-import ee.ut.pillime.noodid.db.User;
+import ee.ut.pillime.noodid.db.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
@@ -34,5 +37,42 @@ public class AuthService {
                 .orElseThrow(AuthException::new);
 
         return new AuthToken(u, credentials, AUTHORITIES.getOrDefault(u.getTase(), AuthorityUtils.NO_AUTHORITIES));
+    }
+
+    public User getUser() {
+        AuthToken authToken = (AuthToken) SecurityContextHolder.getContext().getAuthentication();
+        return (User) authToken.getPrincipal();
+    }
+
+    public Optional<Pillimees> getPillimees() {
+        return Optional.ofNullable(getUser())
+                .map(User::getPillimees);
+    }
+
+    public Stream<Pillirühm> getPillirühmad() {
+        return getPillimees()
+                .map(Pillimees::getPillirühmad)
+                .stream()
+                .flatMap(Collection::stream);
+    }
+
+    public Stream<Partii> getPartiid() {
+        return getPillirühmad()
+                .map(Pillirühm::getPartiid)
+                .flatMap(Collection::stream)
+                .distinct();
+    }
+
+    public Stream<Partituur> getPartituurid() {
+        return getPartiid()
+                .map(Partii::getPartituur)
+                .distinct();
+    }
+
+    public Stream<Repertuaar> getRepertuaarid() {
+        return getPartituurid()
+                .map(Partituur::getRepertuaarid)
+                .flatMap(Collection::stream)
+                .distinct();
     }
 }

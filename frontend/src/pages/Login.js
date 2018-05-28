@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import AuthService from "../services/AuthService";
 import sha512 from "sha512";
-import {AppContext} from '../Context';
+import {AppContext} from '../Common';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 

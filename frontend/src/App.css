@@ -15,7 +15,7 @@
   width: 80%;
 }
 
-.scoreView {
+.pieceView, .scoreView {
   display: flex;
   flex-direction: column;
   justify-content: center;

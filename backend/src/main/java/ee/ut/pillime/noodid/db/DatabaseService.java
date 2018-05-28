@@ -1,13 +1,13 @@
 package ee.ut.pillime.noodid.db;
 
+import static com.google.common.collect.Streams.stream;
 import ee.ut.pillime.noodid.db.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -25,54 +25,64 @@ public class DatabaseService {
         return user;
     }
 
-    public Iterable<User> getUsers() {
-        return userRepository.findAll();
+    public Stream<User> getUsers() {
+        return stream(userRepository.findAll());
     }
 
     public Optional<User> getUser(String kasutajanimi) {
         return userRepository.findByKasutajanimi(kasutajanimi);
     }
 
-    public Iterable<Pillimees> getPillimehed() {
-        return pillimeesRepository.findAll();
+    public Stream<Pillimees> getPillimehed() {
+        return stream(pillimeesRepository.findAll());
     }
 
-    public Iterable<Pillirühm> getPillirühmad() {
-        return pillirühmRepository.findAll();
+    public Stream<Pillirühm> getPillirühmad() {
+        return stream(pillirühmRepository.findAll());
     }
 
-    public Iterable<Repertuaar> getRepertuaarid() {
-        return repertuaarRepository.findAll();
+    public Stream<Repertuaar> getRepertuaarid() {
+        return stream(repertuaarRepository.findAll());
     }
 
-    public Iterable<Partii> getPartiid() {
-        return partiiRepository.findAll();
-    }
-
-    public Iterable<Partituur> getPartituurid() {
-        return partituurRepository.findAll();
+    public Stream<Partituur> getPartituurid() {
+        return stream(partituurRepository.findAll());
     }
 
     public Optional<Repertuaar> getRepertuaar(int id) {
         return repertuaarRepository.findById(id);
     }
 
-    public List<Partituur> otsiPartituur(String osa) {
-
-        return StreamSupport.stream(getPartituurid().spliterator(), false)
-                .filter(partituur -> partituur.getNimi().toLowerCase().contains(osa.toLowerCase()))
-                .collect(Collectors.toList());
+    public Stream<Partii> getPartiid(Pillimees pillimees, int partituur_id) {
+        return stream(partiiRepository.findAllByPartituur_Id(partituur_id))
+                .filter(partii -> partii.getPillirühmad().stream()
+                        .map(Pillirühm::getPillimehed)
+                        .flatMap(Collection::stream)
+                        .map(Pillimees::getId)
+                        .anyMatch(p -> p == pillimees.getId()))
+                .distinct();
     }
 
-    public List<Repertuaar> otsiRepertuaar(String osa) {
-
-        return StreamSupport.stream(getRepertuaarid().spliterator(), false)
-                .filter(repertuaar -> repertuaar.getNimi().toLowerCase().contains(osa.toLowerCase()))
-                .collect(Collectors.toList());
+    public Optional<Partii> getPartii(Pillimees pillimees, int partii_id) {
+        return partiiRepository.findById(partii_id)
+                .filter(partii -> partii.getPillirühmad().stream()
+                        .map(Pillirühm::getPillimehed)
+                        .flatMap(Collection::stream)
+                        .map(Pillimees::getId)
+                        .anyMatch(p -> pillimees.getId() == p));
     }
 
-    public Partii otsiPartii(int id) {
-        return partiiRepository.findById(id).orElse(null);
+    public Stream<Partituur> otsiPartituur(String osa) {
+        return getPartituurid()
+                .filter(partituur -> partituur.getNimi().toLowerCase().contains(osa.toLowerCase()));
     }
 
+    public Stream<Repertuaar> otsiRepertuaar(String osa) {
+        return getRepertuaarid()
+                .filter(repertuaar -> repertuaar.getNimi().toLowerCase().contains(osa.toLowerCase()));
+    }
+
+    public Optional<Partii> otsiPartii(int id) {
+        return partiiRepository.findById(id);
+    }
 }

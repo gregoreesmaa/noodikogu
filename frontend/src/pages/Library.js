@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
-import RepertuaarItem from '../components/RepertuaarItem';
-import PartituurItem from '../components/PartituurItem';
+import PlaylistItem from '../components/PlaylistItem';
+import PieceItem from '../components/PieceItem';
 import BackendService from '../services/BackendService';
 
-export default class Noodikogu extends Component {
+export default class Library extends Component {
 
   constructor() {
     super();
@@ -55,10 +55,10 @@ export default class Noodikogu extends Component {
         <List component="nav">
           {this.state.search
             ? this.state.search.map((item, index) => item.type === 'partituur'
-              ? (<PartituurItem key={index} obj={item}/>)
-              : (<RepertuaarItem key={index} obj={item}/>))
+              ? (<PieceItem key={index} obj={item}/>)
+              : (<PlaylistItem key={index} obj={item}/>))
             : this.state.repertuaarid.map((item, index) =>
-              (<RepertuaarItem key={index} obj={item}/>))}
+              (<PlaylistItem key={index} obj={item}/>))}
         </List>
       </div>);
   }

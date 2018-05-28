@@ -3,22 +3,20 @@ import ListItem from '@material-ui/core/ListItem';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import {AppContext} from '../Context'
+import {AppContext} from '../Common'
 import {Link} from "react-router-dom";
 
-export default class PartituurItem extends Component {
+export default class PieceItem extends Component {
 
   selectScore = (context) => () => {
-    context.selectedScore = {
-      filename: 'test.svg'
-    };
+    context.selectedScore = this.props.obj;
   };
 
   render() {
     return (
       <AppContext.Consumer>
         {context => (
-          <ListItem button onClick={this.selectScore(context)} component={Link} to='/noot'>
+          <ListItem button onClick={this.selectScore(context)} component={Link} to='/piece'>
             <ListItemIcon><MusicNoteIcon/></ListItemIcon>
             <ListItemText inset primary={this.props.obj.nimi}/>
           </ListItem>

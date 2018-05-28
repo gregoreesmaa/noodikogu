@@ -1,80 +1,72 @@
 package ee.ut.pillime.noodid.web;
 
-import ee.ut.pillime.noodid.db.*;
+import ee.ut.pillime.noodid.auth.AuthService;
+import ee.ut.pillime.noodid.db.DatabaseService;
+import ee.ut.pillime.noodid.db.Partii;
+import ee.ut.pillime.noodid.db.Partituur;
+import ee.ut.pillime.noodid.db.Repertuaar;
+import ee.ut.pillime.noodid.scores.ScoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @CrossOrigin(allowCredentials = "true")
 @RequiredArgsConstructor
 public class API {
 
+    private final AuthService authService;
     private final DatabaseService databaseService;
-
-    @GetMapping("/api/kaalikas")
-    private Object getKaalikas() {
-        List<User> users = new ArrayList<>();
-        for (User u : databaseService.getUsers()) {
-            users.add(u);
-        }
-        return users;
-    }
-
-    @GetMapping("/api/pillimehed")
-    private Object getPillimees() {
-        List<Pillimees> pillimehed = new ArrayList<>();
-        for (Pillimees p : databaseService.getPillimehed())
-            pillimehed.add(p);
-        return pillimehed;
-    }
+    private final ScoreService scoreService;
 
     @GetMapping("/api/repertuaarid")
-    private Object getRepertuaar() {
-        List<Repertuaar> repertuaarid = new ArrayList<>();
-        for (Repertuaar r : databaseService.getRepertuaarid())
-            repertuaarid.add(r);
-        return repertuaarid;
+    private Stream<Repertuaar> getRepertuaar() {
+        return databaseService.getRepertuaarid();
     }
 
-    @GetMapping("/api/repertuaarid/{repertuaar}")
-    private Object getPartituurid(@PathVariable int repertuaar) {
-        return databaseService.getRepertuaar(repertuaar).map(r -> r.getPartituurid()).orElse(null);
+    @GetMapping("/api/repertuaar/{repertuaar}/partituurid")
+    private Stream<Partituur> getPartituurid(@PathVariable int repertuaar) {
+        return authService.getPartituurid()
+                .filter(r -> r.getRepertuaarid().stream().anyMatch(a -> a.getId() == repertuaar));
+    }
+
+    @GetMapping("/api/partituur/{partituur}/partiid")
+    private Stream<Partii> getPartiid(@PathVariable int partituur) {
+        return databaseService.getPartiid(authService.getPillimees().orElse(null), partituur);
     }
 
     @GetMapping("/api/otsi/{osa}")
-    private Object otsiMidagi(@PathVariable String osa) {
+    private Map<String, List> leiaRepertuaaridJaPartituurid(@PathVariable String osa) {
         return Map.<String, List>of(
-                "repertuaarid", databaseService.otsiRepertuaar(osa),
-                "partituurid", databaseService.otsiPartituur(osa));
+                "repertuaarid", databaseService.otsiRepertuaar(osa).collect(Collectors.toList()),
+                "partituurid", databaseService.otsiPartituur(osa).collect(Collectors.toList()));
     }
 
-    @GetMapping("/api/partiid/{partii}")
-    private Partii otsiPartii(@PathVariable int partii) {
-        return databaseService.otsiPartii(partii);
+    @GetMapping("/api/partii/{partii}")
+    private void getPartii(HttpServletResponse response, @PathVariable int partii) throws IOException {
+        Optional<Partii> scoreOptional = databaseService.getPartii(authService.getPillimees().orElse(null), partii);
+        if (!scoreOptional.isPresent()) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.flushBuffer();
+            return;
+        }
+
+        scoreService.findScoreImage(response, scoreOptional.get());
     }
 
     @GetMapping("/api/pdf2svg/{failinimi}")
     private void pdf2svg(@PathVariable String failinimi) {
-        try {
-            ProcessBuilder pb = new ProcessBuilder("pdf2svg\\pdf2svg",
-                    "pdf2svg\\" + failinimi + "pdf",
-                    "pdf2svg\\JustAGigolo%d.svg",
-                    "all");
-            pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
-            pb.redirectError(ProcessBuilder.Redirect.INHERIT);
-            Process process = pb.start();
-            process.waitFor();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        scoreService.pdf2svg(failinimi);
     }
 
     /*private Map<String, String> personalcodes = Map.of("kristjan", "39803142763", "gregor", "39806170815");
