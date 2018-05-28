@@ -24,6 +24,7 @@ public class Partituur {
     List<Repertuaar> repertuaarid;
 
     @OneToMany(mappedBy = "partituur")
+    //@JsonIgnoreProperties({"partituur", "pillirühmad"})
     @JsonIgnore
     List<Partii> partiid;
 }

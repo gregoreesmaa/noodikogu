@@ -1,13 +1,7 @@
 import React, {Component} from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
-import PieceItem from "./PieceItem";
+import {Collapse, List, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
+import {ExpandLess, ExpandMore, LibraryMusic} from '@material-ui/icons';
+import {PieceItem} from './';
 
 
 export default class PlaylistItem extends Component {
@@ -28,14 +22,12 @@ export default class PlaylistItem extends Component {
     return (
       <div>
         <ListItem button onClick={this.handleClick}>
-          <ListItemIcon>
-            <LibraryMusicIcon/>
-          </ListItemIcon>
+          <ListItemIcon><LibraryMusic/></ListItemIcon>
           <ListItemText inset primary={this.props.obj.nimi}/>
           {this.state.open ? <ExpandLess/> : <ExpandMore/>}
         </ListItem>
-        <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
+        <Collapse className='playlist' in={this.state.open} timeout='auto' unmountOnExit>
+          <List component='div' disablePadding>
             {
               this.props.obj.partituurid.map((partituur, index) => (
                 <PieceItem key={index} obj={partituur}/>

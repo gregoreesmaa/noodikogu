@@ -12,7 +12,22 @@
 }
 
 .search {
-  width: 80%;
+  width: 100%;
+  max-width: 80vw;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.adminContainer {
+  padding-top: 18px;
+}
+
+.playlist .piece::before {
+  width: 18px;
+  content: "";
 }
 
 .pieceView, .scoreView {
@@ -28,6 +43,7 @@
   margin-bottom: 16px;
 }
 
+/* If width > height */
 @media (min-width: 100vh) {
   .scoreView img {
     max-height: 100vh;
@@ -44,4 +60,8 @@
 
 .loginForm div {
   margin-top: 0;
+}
+
+.instrumentChip {
+  margin: 4px;
 }

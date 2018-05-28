@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import AuthService from "../services/AuthService";
-import sha512 from "sha512";
+import {Button, TextField} from '@material-ui/core';
+import sha512 from 'sha512';
 import {AppContext} from '../Common';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import {AuthService} from '../services';
 
 export default class Login extends Component {
 
@@ -13,13 +12,14 @@ export default class Login extends Component {
   };
 
   login = (setUser, setError) => (event) => {
+    console.log('LOGIN');
     let username = this.state.username;
     let password = this.state.password;
     password = sha512(password).toString('hex');
     AuthService.authenticate({username, password})
       .then(
         response => setUser(response.data),
-        error => setError('Sisselogimine ebaõnnestus. Proovi uuesti.')
+        error => setError('Sisselogimine ebaõnnestus. Proovi uuesti.', error)
       );
     event.preventDefault();
   };
@@ -32,17 +32,17 @@ export default class Login extends Component {
         {({setUser, setError}) => (
           <form className={'loginForm'} onSubmit={this.login(setUser, setError)}>
             <TextField
-              label="Kasutajanimi"
+              label='Kasutajanimi'
               onChange={this.handleFieldChange('username')}
-              margin="normal"
+              margin='normal'
             />
             <TextField
-              label="Parool"
+              label='Parool'
               onChange={this.handleFieldChange('password')}
-              type="password"
-              margin="normal"
+              type='password'
+              margin='normal'
             />
-            <Button type="submit" variant="raised" color="primary">
+            <Button type='submit' variant='raised' color='primary'>
               Logi sisse
             </Button>
           </form>

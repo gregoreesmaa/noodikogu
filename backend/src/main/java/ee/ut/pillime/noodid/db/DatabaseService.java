@@ -53,14 +53,16 @@ public class DatabaseService {
         return repertuaarRepository.findById(id);
     }
 
-    public Stream<Partii> getPartiid(Pillimees pillimees, int partituur_id) {
-        return stream(partiiRepository.findAllByPartituur_Id(partituur_id))
+    public Stream<Partii> getPartiid(int partituur) {
+        return stream(partiiRepository.findAllByPartituur_Id(partituur));
+    }
+    public Stream<Partii> getPartiid(Pillimees pillimees, int partituur) {
+        return stream(partiiRepository.findAllByPartituur_Id(partituur))
                 .filter(partii -> partii.getPillirühmad().stream()
                         .map(Pillirühm::getPillimehed)
                         .flatMap(Collection::stream)
                         .map(Pillimees::getId)
-                        .anyMatch(p -> p == pillimees.getId()))
-                .distinct();
+                        .anyMatch(p -> p == pillimees.getId()));
     }
 
     public Optional<Partii> getPartii(Pillimees pillimees, int partii_id) {

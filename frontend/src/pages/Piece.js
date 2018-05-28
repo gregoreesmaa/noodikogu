@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {AppContext} from '../Common';
-import ScoreView from '../components/ScoreView';
-import BackendService from "../services/BackendService";
+import {BackendService} from '../services';
+import {ScoreView} from '../components';
 
 export default class Piece extends Component {
 

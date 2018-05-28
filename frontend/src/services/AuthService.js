@@ -1,5 +1,5 @@
-import Axios from "axios/index";
-import Constants from "../Constants";
+import Axios from 'axios/index';
+import Constants from '../Constants';
 
 const api = Axios.create({baseURL: Constants.SERVER_URL + '/api/auth', withCredentials: true});
 export default {

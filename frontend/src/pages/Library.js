@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import TextField from '@material-ui/core/TextField';
-import List from '@material-ui/core/List';
-import PlaylistItem from '../components/PlaylistItem';
-import PieceItem from '../components/PieceItem';
-import BackendService from '../services/BackendService';
+import {List, TextField} from '@material-ui/core';
+import {BackendService} from '../services';
+import {PieceItem, PlaylistItem} from '../components';
 
 export default class Library extends Component {
 
@@ -46,13 +44,13 @@ export default class Library extends Component {
       <div>
         <TextField
           className='search'
-          id="search"
-          label="Otsi kõigest"
-          type="search"
-          margin="normal"
+          id='search'
+          label='Otsi kõigest'
+          type='search'
+          margin='normal'
           onChange={this.search}
         />
-        <List component="nav">
+        <List component='nav'>
           {this.state.search
             ? this.state.search.map((item, index) => item.type === 'partituur'
               ? (<PieceItem key={index} obj={item}/>)

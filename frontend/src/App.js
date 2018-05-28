@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
-import './App.css';
-import Menu from './components/Menu';
+import {Snackbar} from '@material-ui/core';
 import {Switch, withRouter} from 'react-router-dom';
-import Library from './pages/Library';
-import Piece from './pages/Piece';
-import Login from './pages/Login';
 import {AppContext, PropsRoute} from './Common';
-import BackendService from "./services/BackendService";
-import Snackbar from '@material-ui/core/Snackbar';
+import {AdminService, BackendService} from './services';
+import {Menu} from './components';
+import {Library, Login, Piece} from './pages';
+import {AdminPieces, AdminPlayers, AdminPlaylists} from './pages/admin';
+import './App.css';
 
 class App extends Component {
 
@@ -29,8 +28,11 @@ class App extends Component {
         localStorage.removeItem('user');
         this.setState({user: null}, () => this.props.history.push('/login'));
       },
-      setError: (error) => {
+      setError: (error, log) => {
         this.setState({error, showError: true});
+        if (log) {
+          console.error(log);
+        }
       },
       clearError: () => {
         this.setState({error: null, showError: false});
@@ -52,6 +54,10 @@ class App extends Component {
       this.state.logout();
       throw error;
     });
+    AdminService.api.interceptors.response.use(null, error => {
+      this.state.logout();
+      throw error;
+    });
   }
 
   render() {
@@ -67,16 +73,21 @@ class App extends Component {
             onClose={() => this.state.clearError()}
             autoHideDuration={6000}
             ContentProps={{'aria-describedby': 'message-id'}}
-            message={<span id="message-id">{this.state.error}</span>}
+            message={<span id='message-id'>{this.state.error}</span>}
           />
           <Menu/>
-          <main>
-            <Switch>
-              <PropsRoute exact path='/' component={Library}/>
-              <PropsRoute exact path='/piece' component={Piece} score={this.state.selectedScore}/>
-              <PropsRoute exact path='/login' component={Login}/>
-            </Switch>
-          </main>
+          <Switch>
+            <PropsRoute exact path='/' component={Library} className='container'/>
+            <PropsRoute exact path='/piece' component={Piece} score={this.state.selectedScore}/>
+            <PropsRoute exact path='/login' component={Login}/>
+            {
+              this.state.user && this.state.user.tase >= 2 ? (<div className='adminContainer'>
+                <PropsRoute exact path='/admin/players' component={AdminPlayers}/>
+                <PropsRoute exact path='/admin/pieces' component={AdminPieces}/>
+                <PropsRoute exact path='/admin/playlists' component={AdminPlaylists}/>
+              </div>) : (<div/>)
+            }
+          </Switch>
         </div>
       </AppContext.Provider>
     );
