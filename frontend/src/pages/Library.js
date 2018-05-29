@@ -41,7 +41,7 @@ export default class Library extends Component {
 
   render() {
     return (
-      <div>
+      <div className='container'>
         <TextField
           className='search'
           id='search'

@@ -77,7 +77,7 @@ class App extends Component {
           />
           <Menu/>
           <Switch>
-            <PropsRoute exact path='/' component={Library} className='container'/>
+            <PropsRoute exact path='/' component={Library}/>
             <PropsRoute exact path='/piece' component={Piece} score={this.state.selectedScore}/>
             <PropsRoute exact path='/login' component={Login}/>
             {

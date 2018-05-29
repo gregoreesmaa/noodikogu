@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url:
+    username:
+    password:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming.strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+logging:
+  level:
+    org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ERROR
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread][%logger{0}] %m%n"
+  file: /logs/codejudge.log
+security:
+  enable-csrf: true
+  basic:
+    enabled: false
+server:
+  contextPath: /
+  port: 8082

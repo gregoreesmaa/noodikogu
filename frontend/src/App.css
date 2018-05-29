@@ -16,7 +16,7 @@
   max-width: 80vw;
 }
 
-.container {
+.container, .adminContainer {
   max-width: 1000px;
   margin: 0 auto;
 }
