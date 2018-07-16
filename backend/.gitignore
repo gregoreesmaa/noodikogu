@@ -25,3 +25,9 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+noodid.yaml
+
+/bin/
+/pdf2svg/*.svg
+/pdf2svg/*.png
