@@ -17,11 +17,11 @@ logging:
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
   pattern:
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread][%logger{0}] %m%n"
-  file: /logs/codejudge.log
+  file: /logs/noodid.log
 security:
   enable-csrf: true
   basic:
     enabled: false
 server:
   contextPath: /
-  port: 8082
+  port: 8080

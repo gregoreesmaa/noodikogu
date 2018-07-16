@@ -26,7 +26,7 @@
 /nbdist/
 /.nb-gradle/
 
-noodid.yaml
+/src/main/resources/application.yml
 
 /bin/
 /pdf2svg/*.svg
