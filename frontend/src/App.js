@@ -24,6 +24,12 @@ class App extends Component {
 
         this.setState({user}, () => this.props.history.push('/'));
       },
+      setSelectedScore: (selectedScore) => {
+        let scoreJson = JSON.stringify(selectedScore);
+        localStorage.setItem('score', scoreJson);
+
+        this.setState({selectedScore});
+      },
       logout: () => {
         localStorage.removeItem('user');
         this.setState({user: null}, () => this.props.history.push('/login'));
@@ -38,7 +44,7 @@ class App extends Component {
         this.setState({error: null, showError: false});
       },
       user: JSON.parse(localStorage.getItem('user')),
-      selectedScore: null,
+      selectedScore: JSON.parse(localStorage.getItem('score')),
       showError: false,
       error: null
     };

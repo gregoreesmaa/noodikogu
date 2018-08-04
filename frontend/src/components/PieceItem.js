@@ -6,15 +6,11 @@ import {AppContext} from '../Common'
 
 export default class PieceItem extends Component {
 
-  selectScore = (context) => () => {
-    context.selectedScore = this.props.obj;
-  };
-
   render() {
     return (
       <AppContext.Consumer>
-        {context => (
-          <ListItem className='piece' button onClick={this.selectScore(context)} component={Link} to='/piece'>
+        {({setSelectedScore}) => (
+          <ListItem className='piece' button onClick={() => setSelectedScore(this.props.obj)} component={Link} to='/piece'>
             <ListItemIcon><MusicNote/></ListItemIcon>
             <ListItemText inset primary={this.props.obj.nimi}/>
           </ListItem>

@@ -30,6 +30,14 @@
   content: "";
 }
 
+@media not all and (min-resolution:.001dpcm) { 
+  @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+    .transformer__outer, .transformer__middle {
+      transition: transform linear 0.01s;
+    }
+  }
+}
+
 .pieceView, .scoreView {
   display: flex;
   flex-direction: column;
@@ -64,4 +72,11 @@
 
 .instrumentChip {
   margin: 4px;
+}
+
+.buttonBar {
+  position: fixed;
+  bottom: 8px;
+  right: 8px;
+  opacity: 0.25;
 }
