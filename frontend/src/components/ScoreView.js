@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import Constants from '../Constants';
 
 export default class ScoreView extends Component {
-
   render() {
     return (
       <div className='scoreView'>
