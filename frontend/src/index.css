@@ -13,3 +13,9 @@ body.inverted {
   filter: invert(100%);
   background: black; /* for rubber scroll in iOS */
 }
+
+.noscroll {
+  margin: 0; 
+  height: 100%; 
+  overflow: hidden;
+}
