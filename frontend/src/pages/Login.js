@@ -41,10 +41,6 @@ const Login = ({ setUser }) => (
 );
 
 const mapStateToProps = () => ({});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({
-    setUser
-  }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ setUser }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -32,10 +32,6 @@ const PlaylistItem = ({ playlist, playlistsOpen, togglePlaylist }) => (
 );
 
 const mapStateToProps = ({ playlistsOpen }) => ({ playlistsOpen });
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({
-    togglePlaylist
-  }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ togglePlaylist }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlaylistItem);

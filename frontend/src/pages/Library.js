@@ -67,12 +67,6 @@ class Library extends Component {
 }
 
 const mapStateToProps = ({ user, filter, filteredList, playlists }) => ({ user, filter, filteredList, playlists });
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({
-    playlistsLoaded,
-    changeFilterCriteria,
-    filteredListChanged
-  }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ playlistsLoaded, changeFilterCriteria, filteredListChanged }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Library);

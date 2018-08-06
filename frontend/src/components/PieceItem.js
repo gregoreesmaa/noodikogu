@@ -17,9 +17,6 @@ const PieceItem = ({ piece, selectPiece }) => (
 
 const mapStateToProps = () => ({});
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({
-    selectPiece
-  }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ selectPiece }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(PieceItem);

@@ -49,10 +49,6 @@ class Piece extends Component {
 }
 
 const mapStateToProps = ({ touchscreen, user, piece, pieceParts }) => ({ touchscreen, user, piece, pieceParts });
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({
-    setPieceParts
-  }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ setPieceParts }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Piece);

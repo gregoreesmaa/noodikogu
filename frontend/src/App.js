@@ -90,11 +90,6 @@ class App extends Component {
 }
 
 const mapStateToProps = ({ dark, user }) => ({ dark, user });
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({
-    touchscreenDetected,
-    logOut
-  }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ touchscreenDetected, logOut }, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

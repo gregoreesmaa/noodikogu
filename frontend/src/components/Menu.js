@@ -103,13 +103,6 @@ const Menu = ({ user, menu, toggleTheme, openMenu, closeMenu, logOut }) => (
 );
 
 const mapStateToProps = ({ user, menu }) => ({ user, menu });
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({
-    toggleTheme,
-    openMenu,
-    closeMenu,
-    logOut
-  }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ toggleTheme, openMenu, closeMenu, logOut }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu);
