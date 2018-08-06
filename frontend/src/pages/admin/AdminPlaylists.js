@@ -1,7 +1,3 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-export default class AdminPlaylists extends Component {
-  render() {
-    return (<div>Selle lehe kallal töö veel käib.</div>);
-  }
-}
+export default () => (<div>Selle lehe kallal töö veel käib.</div>);

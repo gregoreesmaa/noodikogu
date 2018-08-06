@@ -23,6 +23,7 @@
 
 .adminContainer {
   padding-top: 18px;
+  text-align: center;
 }
 
 .playlist .piece::before {
@@ -66,10 +67,12 @@ Smooth scrolling in Safari (on Apple devices)
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 .loginForm div {
   margin-top: 0;
+  width: 100%;
 }
 
 .instrumentChip {
@@ -77,8 +80,9 @@ Smooth scrolling in Safari (on Apple devices)
 }
 
 .buttonBar {
-  position: fixed;
+  position: sticky;
   bottom: 8px;
   right: 8px;
   opacity: 0.25;
+  float: right;
 }

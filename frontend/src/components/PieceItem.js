@@ -1,21 +1,25 @@
-import React, {Component} from 'react';
-import {ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
-import {MusicNote} from '@material-ui/icons';
-import {Link} from 'react-router-dom';
-import {AppContext} from '../Common'
+import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import MusicNote from '@material-ui/icons/MusicNote';
+import { Link } from 'react-router-dom';
+import { selectPiece } from '../state';
 
-export default class PieceItem extends Component {
+const PieceItem = ({ piece, selectPiece }) => (
+  <ListItem className='piece' button onClick={() => selectPiece(piece)} component={Link} to='/piece'>
+    <ListItemIcon><MusicNote /></ListItemIcon>
+    <ListItemText inset primary={piece.nimi} />
+  </ListItem>
+);
 
-  render() {
-    return (
-      <AppContext.Consumer>
-        {({setSelectedScore}) => (
-          <ListItem className='piece' button onClick={() => setSelectedScore(this.props.obj)} component={Link} to='/piece'>
-            <ListItemIcon><MusicNote/></ListItemIcon>
-            <ListItemText inset primary={this.props.obj.nimi}/>
-          </ListItem>
-        )}
-      </AppContext.Consumer>
-    );
-  }
-}
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({
+    selectPiece
+  }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(PieceItem);
