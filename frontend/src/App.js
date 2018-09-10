@@ -9,6 +9,7 @@ import { Menu } from './components';
 import { Library, Login, Piece } from './pages';
 import { AdminPieces, AdminPlayers, AdminPlaylists } from './pages/admin';
 import './App.css';
+import Players from "./pages/Players";
 
 class App extends Component {
 
@@ -64,6 +65,7 @@ class App extends Component {
           <Switch>
             <PropsRoute exact path='/' component={Library} />
             <PropsRoute exact path='/piece' component={Piece} />
+            <PropsRoute exact path='/players' component={Players} />
           </Switch>
           {
             this.props.user.tase >= 2

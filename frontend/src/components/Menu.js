@@ -41,6 +41,10 @@ const generalItems = (toggleTheme) => (
       <ListItemIcon><BrightnessMedium /></ListItemIcon>
       <ListItemText primary='Taustavalgus' />
     </ListItem>
+    <ListItem button component={Link} to='/players'>
+      <ListItemIcon><SupervisorAccount /></ListItemIcon>
+      <ListItemText primary='Pillimehed' />
+    </ListItem>
   </div>
 );
 
