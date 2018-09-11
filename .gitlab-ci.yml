@@ -1,19 +1,19 @@
 before_script:
   - export IMAGE_TAG="Noodid-$CI_COMMIT_SHA"
 
-build-frontend:
-  stage: build
-  script:
-    - cd frontend
-    - npm install
-    - npm run build
-
 build-backend:
   stage: build
   script:
     - cd backend
     - chmod +x gradlew
     - ./gradlew buildDocker
+
+build-frontend:
+  stage: build
+  script:
+    - cd frontend
+    - npm install
+    - npm run build
 
 deploy-live:
   artifacts:
