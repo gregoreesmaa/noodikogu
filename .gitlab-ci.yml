@@ -4,11 +4,13 @@ before_script:
 build-frontend:
   stage: build
   script:
+    - cd frontend
     - npm run build
 
 build-backend:
   stage: build
   script:
+    - cd backend
     - ./gradlew buildDocker
 
 deploy-live:
