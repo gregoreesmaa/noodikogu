@@ -22,11 +22,15 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'net.ltgt.apt'
 
 group = 'gregoreesmaa'
-version = System.getenv("IMAGE_TAG")
+version = '1.0'
 sourceCompatibility = 10
 
 repositories {
     mavenCentral()
+}
+
+jar {
+    archiveName 'app.jar'
 }
 
 dependencies {
@@ -49,7 +53,7 @@ dependencies {
 
 task buildDocker(type: Docker, dependsOn: build) {
     push = true
-    applicationName = jar.baseName
+    applicationName = System.getenv("IMAGE_TAG")
     dockerfile = file('src/main/docker/Dockerfile')
     doFirst {
         copy {
