@@ -1,5 +1,5 @@
 before_script:
-  - export IMAGE_TAG="$CI_COMMIT_SHA"
+  - export IMAGE_TAG="Noodid-$CI_COMMIT_SHA"
 
 build-frontend:
   stage: build
