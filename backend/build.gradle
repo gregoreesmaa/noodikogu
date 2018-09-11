@@ -29,10 +29,6 @@ repositories {
     mavenCentral()
 }
 
-configurations {
-    jar.archiveName = 'app.jar'
-}
-
 dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.2'
     apt 'org.projectlombok:lombok:1.18.2'
@@ -59,6 +55,7 @@ task buildDocker(type: Docker, dependsOn: build) {
         copy {
             from jar
             into stageDir
+            rename { 'app.jar' }
         }
     }
 }
