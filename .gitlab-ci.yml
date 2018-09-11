@@ -5,6 +5,7 @@ build-frontend:
   stage: build
   script:
     - cd frontend
+    - npm install
     - npm run build
 
 build-backend:
@@ -14,11 +15,19 @@ build-backend:
     - ./gradlew buildDocker
 
 deploy-live:
+  artifacts:
+    paths:
+      - frontend/public/
   stage: deploy
   script:
+    - cp -R frontend/public/. /srv/www/noodid/frontend/
     - /srv/www/noodid/start_backend.docker.sh 
     
 deploy-test:
+  artifacts:
+    paths:
+      - frontend/public/
   stage: deploy
   script:
+    - cp -R frontend/public/. /srv/www/noodid-test/frontend/
     - /srv/www/noodid-test/start_backend.docker.sh 
