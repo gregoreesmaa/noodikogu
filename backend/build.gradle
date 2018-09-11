@@ -22,7 +22,7 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'net.ltgt.apt'
 
 group = 'gregoreesmaa'
-version = 'Noodid-backend-0.0.1'
+version = System.getenv("IMAGE_TAG")
 sourceCompatibility = 1.9
 
 repositories {
