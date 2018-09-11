@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.2.RELEASE'
+        springBootVersion = '2.0.4.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -23,26 +23,26 @@ apply plugin: 'net.ltgt.apt'
 
 group = 'gregoreesmaa'
 version = System.getenv("IMAGE_TAG")
-sourceCompatibility = 1.8
+sourceCompatibility = 10
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.0'
-    apt 'org.projectlombok:lombok:1.18.0'
+    compileOnly 'org.projectlombok:lombok:1.18.2'
+    apt 'org.projectlombok:lombok:1.18.2'
 
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile 'com.google.guava:guava:25.1-jre'
+    compile 'com.google.guava:guava:26.0-jre'
 
     compile 'commons-codec:commons-codec:1.11'
     runtime 'javax.xml.bind:jaxb-api:2.3.0'
     runtime 'com.sun.xml.bind:jaxb-core:2.3.0'
     runtime 'com.sun.xml.bind:jaxb-impl:2.3.0'
-    runtime 'org.postgresql:postgresql:42.1.1'
+    runtime 'org.postgresql:postgresql:42.2.5'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
