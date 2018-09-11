@@ -29,8 +29,8 @@ repositories {
     mavenCentral()
 }
 
-jar {
-    archiveName 'app.jar'
+configurations {
+    jar.archiveName = 'app.jar'
 }
 
 dependencies {
