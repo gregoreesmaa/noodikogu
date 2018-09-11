@@ -1,5 +1,6 @@
 before_script:
   - export IMAGE_TAG="Noodid-$CI_COMMIT_SHA"
+  - export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 
 build-backend:
   stage: build
