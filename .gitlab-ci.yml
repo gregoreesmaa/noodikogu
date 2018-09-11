@@ -7,7 +7,6 @@ build-backend:
   script:
     - cd backend
     - chmod +x gradlew
-    - ls -laR
     - ./gradlew buildDocker
 
 build-frontend:
