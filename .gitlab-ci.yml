@@ -7,7 +7,7 @@ before_script:
   - export IMAGE_TAG="Noodid-${CI_COMMIT_SHA}"
   - export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
   
-build-backend:
+build:backend:
   stage: build
   script:
     - echo $IMAGE_TAG
@@ -16,17 +16,18 @@ build-backend:
     - ./gradlew clean build
     - docker build -f src/main/docker/Dockerfile -t gregoreesmaa/sahtel:$IMAGE_TAG .
 
-build-frontend:
+build:frontend:
   stage: build
   script:
     - cd frontend
     - npm install
     - npm run build
-
-deploy-live:
   artifacts:
     paths:
       - frontend/build/
+    expire_in: 1 week
+
+deploy:live:
   stage: deploy
   when: manual
   script:
@@ -41,14 +42,15 @@ deploy-live:
       -p 8083:8083 
       --restart=unless-stopped 
       gregoreesmaa/sahtel:$IMAGE_TAG
+  dependencies:
+    - build:backend
+    - build:frontend
     
-deploy-test:
-  artifacts:
-    paths:
-      - frontend/build/
+deploy:test:
   stage: deploy
   when: manual
   script:
+    - ls -laR
     - rm /srv/www/noodid-test/frontend -rf
     - cp -R frontend/build /srv/www/noodid-test/frontend
     - (docker kill noodid-test && docker rm noodid-test) || echo "No container exists"
@@ -61,3 +63,6 @@ deploy-test:
       -p 8086:8086 
       --restart=unless-stopped 
       gregoreesmaa/sahtel:$IMAGE_TAG
+  dependencies:
+    - build:backend
+    - build:frontend
