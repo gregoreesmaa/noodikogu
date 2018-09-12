@@ -30,7 +30,7 @@ deploy-live:
   stage: deploy
   when: manual
   script:
-    - cp -R frontend/public/. /srv/www/noodid/frontend/
+    - cp -R frontend/public /srv/www/noodid/frontend
     - (docker kill noodid && docker rm noodid) || echo "No container exists"
     - docker run -d 
       --name noodid 
@@ -49,7 +49,8 @@ deploy-test:
   stage: deploy
   when: manual
   script:
-    - cp -R frontend/public/. /srv/www/noodid-test/frontend/
+    - rm /srv/www/noodid-test/frontend -rf
+    - cp -R frontend/public /srv/www/noodid-test/frontend
     - (docker kill noodid-test && docker rm noodid-test) || echo "No container exists"
     - docker run -d 
       --name noodid-test 
