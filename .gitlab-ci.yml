@@ -14,8 +14,7 @@ build-backend:
     - cd backend
     - chmod +x gradlew
     - ./gradlew clean build
-    - cd build/libs
-    - docker build -f ../../src/main/docker/Dockerfile -t gregoreesmaa/sahtel:$IMAGE_TAG .
+    - docker build -f src/main/docker/Dockerfile -t gregoreesmaa/sahtel:$IMAGE_TAG .
 
 build-frontend:
   stage: build
