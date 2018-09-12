@@ -1,4 +1,4 @@
-FROM openjdk:11-jre
+FROM openjdk:10-jre
 VOLUME /tmp
 ADD build/libs/sahtel-docker.jar app.jar
 RUN sh -c 'touch /app.jar'
