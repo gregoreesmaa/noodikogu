@@ -13,7 +13,7 @@ build-backend:
     - echo $IMAGE_TAG
     - cd backend
     - chmod +x gradlew
-    - ./gradlew buildDocker
+    - ./gradlew clean buildDocker
 
 build-frontend:
   stage: build
