@@ -26,15 +26,37 @@ deploy-live:
     paths:
       - frontend/public/
   stage: deploy
+  when: manual
   script:
     - cp -R frontend/public/. /srv/www/noodid/frontend/
-    - /srv/www/noodid/start_backend.docker.sh 
+    - docker kill noodid
+    - docker rm noodid
+    - docker run -d 
+      --name noodid 
+      -v /var/www/noodid/configuration:/conf 
+      -v /var/www/noodid/logs:/logs 
+      -v /var/www/noodid/scores:/scores 
+      --expose 8083 
+      -p 8083:8083 
+      --restart=unless-stopped 
+      gregoreesmaa/sahtel:$IMAGE_TAG
     
 deploy-test:
   artifacts:
     paths:
       - frontend/public/
   stage: deploy
+  when: manual
   script:
     - cp -R frontend/public/. /srv/www/noodid-test/frontend/
-    - /srv/www/noodid-test/start_backend.docker.sh 
+    - docker kill noodid-test
+    - docker rm noodid-test
+    - docker run -d 
+      --name noodid-test 
+      -v /var/www/noodid-test/configuration:/conf 
+      -v /var/www/noodid-test/logs:/logs 
+      -v /var/www/noodid-test/scores:/scores 
+      --expose 8086 
+      -p 8086:8086 
+      --restart=unless-stopped 
+      gregoreesmaa/sahtel:$IMAGE_TAG
