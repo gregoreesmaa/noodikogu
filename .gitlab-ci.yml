@@ -1,15 +1,16 @@
 cache:
-  key: ${CI_JOB_NAME:0:10}
+  key: ${CI_JOB_NAME}
   paths:
   - frontend/node_modules/
 
 before_script:
-  - export IMAGE_TAG="Noodid-$CI_COMMIT_SHA"
+  - export IMAGE_TAG="Noodid-${CI_COMMIT_SHA}"
   - export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
   
 build-backend:
   stage: build
   script:
+    - echo $IMAGE_TAG
     - cd backend
     - chmod +x gradlew
     - ./gradlew buildDocker
