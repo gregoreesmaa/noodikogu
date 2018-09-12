@@ -1,5 +1,5 @@
 cache:
-  key: ${CI_JOB_NAME}
+  key: ${CI_JOB_NAME:0:10}
   paths:
   - frontend/node_modules/
 
