@@ -32,7 +32,8 @@ deploy:live:
   when: manual
   script:
     - cp -R frontend/build /srv/www/noodid/frontend
-    - (docker kill noodid && docker rm noodid) || echo "No container exists"
+    - docker kill noodid || echo "No container exists"
+    - docker rm noodid || echo "No container exists"
     - docker run -d 
       --name noodid 
       -v /var/www/noodid/configuration:/conf 
@@ -52,7 +53,8 @@ deploy:test:
   script:
     - rm /srv/www/noodid-test/frontend -rf
     - cp -R frontend/build /srv/www/noodid-test/frontend
-    - (docker kill noodid-test && docker rm noodid-test) || echo "No container exists"
+    - docker kill noodid-test || echo "No container exists"
+    - docker rm noodid-test || echo "No container exists"
     - docker run -d 
       --name noodid-test 
       -v /var/www/noodid-test/configuration:/conf 
