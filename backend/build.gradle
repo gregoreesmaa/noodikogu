@@ -7,7 +7,6 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath 'se.transmode.gradle:gradle-docker:1.2'
     }
 }
 
@@ -16,13 +15,12 @@ plugins {
 }
 
 apply plugin: 'java'
-apply plugin: 'docker'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'net.ltgt.apt'
 
 group = 'gregoreesmaa'
-version = System.getenv("IMAGE_TAG")
+version = 'docker'
 sourceCompatibility = 10
 
 repositories {
@@ -45,17 +43,4 @@ dependencies {
     runtime 'org.postgresql:postgresql:42.2.5'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
-}
-
-task buildDocker(type: Docker, dependsOn: build) {
-    push = true
-    applicationName = jar.baseName
-    dockerfile = file('src/main/docker/Dockerfile')
-    doFirst {
-        copy {
-            from jar
-            into stageDir
-            rename { 'app.jar' }
-        }
-    }
 }
