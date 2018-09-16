@@ -39,7 +39,7 @@ public class ScoreService {
         try {
             ProcessBuilder pb = new ProcessBuilder("pdf2svg\\pdf2svg",
                     "pdf2svg\\" + filename + ".pdf",
-                    "pdf2svg\\JustAGigolo%d.svg",
+                    "pdf2svg\\" + filename + ".%d.svg",
                     "all");
             pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             pb.redirectError(ProcessBuilder.Redirect.INHERIT);

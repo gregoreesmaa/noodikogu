@@ -9,6 +9,7 @@
   left: 0;
   color: black;
   z-index: 2;
+  top: 0;
 }
 
 .search {
@@ -19,6 +20,12 @@
 .container, .adminContainer {
   max-width: 1000px;
   margin: 0 auto;
+}
+
+.playerContainer {
+  max-width: 1000px;
+  margin: 18px auto 0;
+  text-align: center;
 }
 
 .adminContainer {
