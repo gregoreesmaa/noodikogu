@@ -9,6 +9,8 @@ import nl.basjes.parse.core.exceptions.DissectionFailure;
 import nl.basjes.parse.core.exceptions.InvalidDissectorException;
 import nl.basjes.parse.core.exceptions.MissingDissectorsException;
 import nl.basjes.parse.httpdlog.HttpdLoglineParser;
+import nl.basjes.parse.useragent.UserAgent;
+import nl.basjes.parse.useragent.UserAgentAnalyzer;
 
 import java.time.LocalDateTime;
 
@@ -26,11 +28,10 @@ public class LogRow {
     @Setter(onMethod_ = {@Field("HTTP.URI:request.firstline.uri")})
     private String uri;
 
-    @Setter(onMethod_ = {@Field("HTTP.USERAGENT:request.user-agent")})
-    private String userAgent;
-
     @Setter(onMethod_ = {@Field("IP:connection.client.host")})
     private String IP;
+
+    private UserAgent userAgent;
 
     private LocalDateTime time;
 
@@ -38,6 +39,19 @@ public class LogRow {
     @Field("TIME.STAMP:request.receive.time")
     public void setTime(String timestamp) {
         this.time = parse(timestamp, ofPattern("dd/MMM/yyyy:HH:mm:ss Z", US));
+    }
+
+    @Field("HTTP.USERAGENT:request.user-agent")
+    public void setUserAgent(String unParsedUserAgent) {
+        UserAgentAnalyzer uaa;
+        uaa = UserAgentAnalyzer
+                .newBuilder()
+                .withField("DeviceBrand")
+                .withField("DeviceName")
+                .withField("AgentName")
+                .build();
+
+        this.userAgent = uaa.parse(unParsedUserAgent);
     }
 
     public static LogRow from(String row) {
