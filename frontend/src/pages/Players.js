@@ -22,7 +22,7 @@ class Players extends Component {
   render() {
     return this.props.players
       ? (
-        <Table>
+        <Table className='playerContainer'>
           <TableHead>
             <TableRow>
               <TableCell>Nimi</TableCell>
