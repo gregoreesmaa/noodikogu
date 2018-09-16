@@ -1,0 +1,71 @@
+cache:
+  key: ${CI_JOB_NAME}
+  paths:
+  - backend/.gradle/
+  - frontend/node_modules/
+
+before_script:
+  - export IMAGE_TAG="Noodid-${CI_COMMIT_SHA}"
+  - export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+  
+build:backend:
+  stage: build
+  script:
+    - echo $IMAGE_TAG
+    - cd backend
+    - chmod +x gradlew
+    - ./gradlew clean build
+    - docker build -f src/main/docker/Dockerfile -t gregoreesmaa/sahtel:$IMAGE_TAG .
+
+build:frontend:
+  stage: build
+  script:
+    - cd frontend
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/build/
+    expire_in: 1 week
+
+deploy:live:
+  stage: deploy
+  when: manual
+  script:
+    - rm /srv/www/noodid/frontend -rf
+    - cp -R frontend/build /srv/www/noodid/frontend
+    - docker kill noodid || echo "No container exists"
+    - docker rm noodid || echo "No container exists"
+    - docker run -d 
+      --name noodid 
+      -v /var/www/noodid/configuration:/conf 
+      -v /var/www/noodid/logs:/logs 
+      -v /var/www/noodid/scores:/scores 
+      --expose 8083 
+      -p 8083:8083 
+      --restart=unless-stopped 
+      gregoreesmaa/sahtel:$IMAGE_TAG
+  dependencies:
+    - build:backend
+    - build:frontend
+    
+deploy:test:
+  stage: deploy
+  when: manual
+  script:
+    - rm /srv/www/noodid-test/frontend -rf
+    - cp -R frontend/build /srv/www/noodid-test/frontend
+    - docker kill noodid-test || echo "No container exists"
+    - docker rm noodid-test || echo "No container exists"
+    - docker run -d 
+      --name noodid-test 
+      -v /var/www/noodid-test/configuration:/conf 
+      -v /var/www/noodid-test/logs:/logs 
+      -v /var/www/noodid-test/scores:/scores 
+      --expose 8086 
+      -p 8086:8086 
+      --restart=unless-stopped 
+      gregoreesmaa/sahtel:$IMAGE_TAG
+  dependencies:
+    - build:backend
+    - build:frontend

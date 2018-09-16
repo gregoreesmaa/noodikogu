@@ -1,13 +1,12 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.2.RELEASE'
+        springBootVersion = '2.0.4.RELEASE'
     }
     repositories {
         mavenCentral()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath 'se.transmode.gradle:gradle-docker:1.2'
     }
 }
 
@@ -16,46 +15,33 @@ plugins {
 }
 
 apply plugin: 'java'
-apply plugin: 'docker'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'net.ltgt.apt'
 
 group = 'gregoreesmaa'
-version = 'Noodid-backend-0.0.1'
-sourceCompatibility = 1.9
+version = 'docker'
+sourceCompatibility = 10
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.0'
-    apt 'org.projectlombok:lombok:1.18.0'
+    compileOnly 'org.projectlombok:lombok:1.18.2'
+    apt 'org.projectlombok:lombok:1.18.2'
 
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile 'com.google.guava:guava:25.1-jre'
+    compile 'com.google.guava:guava:26.0-jre'
     compile 'nl.basjes.parse.useragent:yauaa-logparser:5.2'
 
     compile 'commons-codec:commons-codec:1.11'
     runtime 'javax.xml.bind:jaxb-api:2.3.0'
     runtime 'com.sun.xml.bind:jaxb-core:2.3.0'
     runtime 'com.sun.xml.bind:jaxb-impl:2.3.0'
-    runtime 'org.postgresql:postgresql:42.1.1'
+    runtime 'org.postgresql:postgresql:42.2.5'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
-}
-
-task buildDocker(type: Docker, dependsOn: build) {
-    push = true
-    applicationName = jar.baseName
-    dockerfile = file('src/main/docker/Dockerfile')
-    doFirst {
-        copy {
-            from jar
-            into stageDir
-        }
-    }
 }
