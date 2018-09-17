@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${noauth:}")
+    @Value("${noauth:false}")
     private boolean noauth;
 
     @Override
