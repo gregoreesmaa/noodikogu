@@ -71,6 +71,10 @@ const otherItems = (logOut) => (
       <ListItemIcon><ExitToApp /></ListItemIcon>
       <ListItemText primary='Logi välja' />
     </ListItem>
+    <ListItem button>
+      <ListItemIcon><ExitToApp /></ListItemIcon>
+      <ListItemText primary='Vaheta keel' />
+    </ListItem>
   </div>
 );
 
