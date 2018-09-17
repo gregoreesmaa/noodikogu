@@ -6,7 +6,8 @@ import ee.ut.pillime.noodid.db.Partii;
 import ee.ut.pillime.noodid.db.Partituur;
 import ee.ut.pillime.noodid.db.Repertuaar;
 import ee.ut.pillime.noodid.scores.ScoreService;
-import ee.ut.pillime.noodid.statistics.LogRow;
+import ee.ut.pillime.noodid.statistics.StatisticsResult;
+import ee.ut.pillime.noodid.statistics.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -31,6 +30,7 @@ public class API {
     private final AuthService authService;
     private final DatabaseService databaseService;
     private final ScoreService scoreService;
+    private final StatisticsService statisticsService;
 
     @GetMapping("/api/repertuaarid")
     private Stream<Repertuaar> getRepertuaar() {
@@ -72,10 +72,9 @@ public class API {
         scoreService.pdf2svg(failinimi);
     }
 
-    @GetMapping("/api/logrows")
-    private Stream<LogRow> logrows() throws IOException {
-        return Files.lines(Paths.get("C:\\Users\\Kristjan\\IdeaProjects\\noodid\\backend\\example_access.log"))
-                .map(LogRow::from);
+    @GetMapping("/statistics")
+    private StatisticsResult getStatistics() throws IOException {
+        return statisticsService.getStatistics();
     }
 
     /*private Map<String, String> personalcodes = Map.of("kristjan", "39803142763", "gregor", "39806170815");
