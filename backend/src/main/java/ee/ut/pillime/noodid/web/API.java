@@ -72,7 +72,7 @@ public class API {
         scoreService.pdf2svg(failinimi);
     }
 
-    @GetMapping("/statistics")
+    @GetMapping("/api/statistics")
     private StatisticsResult getStatistics() throws IOException {
         return statisticsService.getStatistics();
     }
