@@ -21,7 +21,9 @@ public class StatisticsService {
     public StatisticsResult getStatistics() throws IOException {
         List<LogRow> logRows = getLogRows();
         return StatisticsResult.builder()
+                .opSystemPopularity(getOpSystemPopularity(logRows))
                 .browserPopularity(getBrowsersPopularity(logRows))
+                .timePopularity(getTimePopularity(logRows))
                 .build();
     }
 
@@ -37,4 +39,17 @@ public class StatisticsService {
                 .collect(groupingBy(identity(), counting()));
     }
 
+    private Map<String, Long> getOpSystemPopularity(List<LogRow> logRows) {
+        return logRows.stream()
+                .map(LogRow::getUserAgent)
+                .map(agent -> agent.getValue("OperatingSystemNameVersion"))
+                .collect(groupingBy(identity(), counting()));
+    }
+
+    private Map<Integer, Long> getTimePopularity(List<LogRow> logRows) {
+        return logRows.stream()
+                .map(LogRow::getTime)
+                .map(localDateTime -> localDateTime.getHour())
+                .collect(groupingBy(identity(), counting()));
+    }
 }

@@ -10,4 +10,6 @@ import java.util.Map;
 public class StatisticsResult {
 
     Map<String, Long> browserPopularity;
+    Map<String, Long> opSystemPopularity;
+    Map<Integer, Long> timePopularity;
 }
