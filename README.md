@@ -1,7 +1,7 @@
 # Digitaalne noodikogu
 
-Projekt ja see repositoorium on valminud Tartu ‹likooli arvutiteaduse instituudi tudengiprojektide vıistluse raames.
+Projekt ja see repositoorium on valminud Tartu √úlikooli arvutiteaduse instituudi tudengiprojektide v√µistluse raames.
 
 ---
 
-Autorid: Gregor Eesmaa, Kristjan P‰rn
+Autorid: Gregor Eesmaa, Kristjan P√§rn
