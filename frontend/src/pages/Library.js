@@ -51,7 +51,7 @@ class Library extends Component {
         <h4>Külastajate statistika</h4>
         {mostPopularBrowser} on selle lehe külastajate seas populaarseim brauser ning seda on kasutatud {browserPopularity} korda.
         <br />
-        {mostPopularOpSystem} on selle lehe külastajate seas populaarseim operatsioonisüsteem ning seda on kasutataud {opSystemPopularity} korda.
+        {mostPopularOpSystem} on selle lehe külastajate seas populaarseim operatsioonisüsteem ning seda on kasutatud {opSystemPopularity} korda.
         <br />
         {mostPopularTime}:00-{Number(mostPopularTime)+1}:00 on selle lehe külastajate seas populaarseim külastusaeg ning sellel ajal külastajaid on {timePopularity}.
       </div>
