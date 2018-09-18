@@ -29,7 +29,9 @@ public class StatisticsService {
 
     private List<LogRow> getLogRows() throws IOException {
         return Files.lines(Paths.get(LOG_LOCATION))
-                .map(LogRow::from).collect(Collectors.toList());
+                .map(LogRow::from)
+                .filter(row -> "/".equals(row.getUri()))
+                .collect(Collectors.toList());
     }
 
     private Map<String, Long> getBrowsersPopularity(List<LogRow> logRows) {
