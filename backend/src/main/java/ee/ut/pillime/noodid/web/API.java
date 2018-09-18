@@ -6,6 +6,8 @@ import ee.ut.pillime.noodid.db.Partii;
 import ee.ut.pillime.noodid.db.Partituur;
 import ee.ut.pillime.noodid.db.Repertuaar;
 import ee.ut.pillime.noodid.scores.ScoreService;
+import ee.ut.pillime.noodid.statistics.StatisticsResult;
+import ee.ut.pillime.noodid.statistics.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,7 @@ public class API {
     private final AuthService authService;
     private final DatabaseService databaseService;
     private final ScoreService scoreService;
+    private final StatisticsService statisticsService;
 
     @GetMapping("/api/repertuaarid")
     private Stream<Repertuaar> getRepertuaar() {
@@ -67,6 +70,11 @@ public class API {
     @GetMapping("/api/pdf2svg/{failinimi}")
     private void pdf2svg(@PathVariable String failinimi) {
         scoreService.pdf2svg(failinimi);
+    }
+
+    @GetMapping("/api/statistics")
+    private StatisticsResult getStatistics() throws IOException {
+        return statisticsService.getStatistics();
     }
 
     /*private Map<String, String> personalcodes = Map.of("kristjan", "39803142763", "gregor", "39806170815");
