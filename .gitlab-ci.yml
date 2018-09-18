@@ -45,6 +45,11 @@ deploy:live:
       -p 8083:8083 
       --restart=unless-stopped 
       gregoreesmaa/sahtel:$IMAGE_TAG
+  environment:
+    name: live
+    url: https://noodid.ninata.ga/
+  only:
+    - master
   dependencies:
     - build:backend
     - build:frontend
@@ -66,6 +71,10 @@ deploy:test:
       -p 8086:8086 
       --restart=unless-stopped 
       gregoreesmaa/sahtel:$IMAGE_TAG
+  environment:
+    name: test
+    url: https://noodid-test.ninata.ga/
   dependencies:
     - build:backend
     - build:frontend
+    
