@@ -16,6 +16,11 @@ class Library extends Component {
   }
 
   renderStatistics() {
+    if (!this.props.statistics) {
+      return (
+        <div>Statistikat laetakse...</div>
+      )
+    }
     let mostPopularBrowser;
     let browserPopularity = 0;
     for(let key in this.props.statistics.browserPopularity){
