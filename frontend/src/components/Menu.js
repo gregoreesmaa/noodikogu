@@ -10,6 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import BrightnessMedium from '@material-ui/icons/BrightnessMedium';
 import ExitToApp from '@material-ui/icons/ExitToApp';
+import Locale from '@material-ui/icons/Language';
 import LibraryMusic from '@material-ui/icons/LibraryMusic';
 import MenuIcon from '@material-ui/icons/Menu';
 import MusicNote from '@material-ui/icons/MusicNote';
@@ -18,6 +19,8 @@ import Search from '@material-ui/icons/Search';
 import SupervisorAccount from '@material-ui/icons/SupervisorAccount';
 import { Link } from 'react-router-dom';
 import { toggleTheme, openMenu, closeMenu, logOut } from '../state';
+import {swapLocale} from "../state/reducers";
+import {FormattedMessage} from "react-intl";
 
 const userHeader = (user) => (
   <div>
@@ -56,29 +59,29 @@ const adminItems = () => (
     </ListItem>
     <ListItem button component={Link} to='/admin/pieces'>
       <ListItemIcon><QueueMusic /></ListItemIcon>
-      <ListItemText primary='Partituurid' />
+      <ListItemText primary={<FormattedMessage id = 'partituurid'/>} />
     </ListItem>
     <ListItem button component={Link} to='/admin/playlists'>
       <ListItemIcon><LibraryMusic /></ListItemIcon>
-      <ListItemText primary='Repertuaarid' />
+      <ListItemText primary={<FormattedMessage id="repertuaarid"/>} />
     </ListItem>
   </div>
 );
 
-const otherItems = (logOut) => (
+const otherItems = (logOut, swapLocale) => (
   <div>
+    <ListItem button onClick={swapLocale}>
+      <ListItemIcon><Locale /></ListItemIcon>
+      <ListItemText primary={<FormattedMessage id="muudaKeerukust"/>}/>
+    </ListItem>
     <ListItem button onClick={logOut}>
       <ListItemIcon><ExitToApp /></ListItemIcon>
       <ListItemText primary='Logi välja' />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon><ExitToApp /></ListItemIcon>
-      <ListItemText primary='Vaheta keel' />
-    </ListItem>
   </div>
 );
 
-const Menu = ({ user, menu, toggleTheme, openMenu, closeMenu, logOut }) => (
+const Menu = ({ user, menu, toggleTheme, openMenu, closeMenu, logOut, swapLocale }) => (
   <div>
     <IconButton
       id='menuburger'
@@ -103,7 +106,7 @@ const Menu = ({ user, menu, toggleTheme, openMenu, closeMenu, logOut }) => (
             <List>{adminItems()}</List>
           </div>) : (<div />)}
           <Divider />
-          <List>{otherItems(logOut)}</List>
+          <List>{otherItems(logOut, swapLocale)}</List>
         </div>
       </div>
     </Drawer>
@@ -111,6 +114,6 @@ const Menu = ({ user, menu, toggleTheme, openMenu, closeMenu, logOut }) => (
 );
 
 const mapStateToProps = ({ user, menu }) => ({ user, menu });
-const mapDispatchToProps = dispatch => bindActionCreators({ toggleTheme, openMenu, closeMenu, logOut }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ toggleTheme, openMenu, closeMenu, logOut, swapLocale }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu);
