@@ -13,8 +13,8 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 logging:
   level:
-    org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ERROR
-    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    root: WARN
+    ee.ut.pillime.noodid: INFO
   pattern:
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread][%logger{0}] %m%n"
   file: /logs/noodid.log
