@@ -7,4 +7,4 @@ export * from './ThemeReducer';
 export * from './TouchscreenReducer';
 export * from './UserReducer';
 export * from './LocaleReducer';
-
+export * from './StatisticsReducer';
