@@ -4,4 +4,4 @@ Projekt ja see repositoorium on valminud Tartu Ülikooli arvutiteaduse instituud
 
 ---
 
-Autorid: Gregor Eesmaa, Kristjan Pärn
+Autorid: Gregor Eesmaa, Kristjan Pärn, Richard Annilo
