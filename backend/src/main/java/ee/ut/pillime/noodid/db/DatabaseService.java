@@ -1,6 +1,5 @@
 package ee.ut.pillime.noodid.db;
 
-import static com.google.common.collect.Streams.stream;
 import ee.ut.pillime.noodid.db.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,6 +7,8 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import static com.google.common.collect.Streams.stream;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +57,7 @@ public class DatabaseService {
     public Stream<Partii> getPartiid(int partituur) {
         return stream(partiiRepository.findAllByPartituur_Id(partituur));
     }
+
     public Stream<Partii> getPartiid(Pillimees pillimees, int partituur) {
         return stream(partiiRepository.findAllByPartituur_Id(partituur))
                 .filter(partii -> partii.getPillirühmad().stream()
@@ -86,5 +88,9 @@ public class DatabaseService {
 
     public Optional<Partii> getPartii(int id) {
         return partiiRepository.findById(id);
+    }
+
+    public void deletePartii(Partii partii) {
+        partiiRepository.delete(partii);
     }
 }

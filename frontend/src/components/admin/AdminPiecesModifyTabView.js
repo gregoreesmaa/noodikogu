@@ -17,7 +17,7 @@ class AdminPiecesModifyTabView extends Component {
   render() {
     return <List component='nav'>
       {
-        this.props.pieces.map(p => <AdminPiecesItem key={p.id} adminPiece={p}/>)
+        this.props.pieces.map(p => <AdminPiecesItem key={p.id} piece={p}/>)
       }
     </List>;
   }

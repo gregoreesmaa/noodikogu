@@ -1,11 +1,9 @@
 package ee.ut.pillime.noodid.web;
 
 import ee.ut.pillime.noodid.db.*;
+import ee.ut.pillime.noodid.scores.ScoreService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Stream;
 
@@ -14,6 +12,7 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class AdminAPI {
 
+    private final ScoreService scoreService;
     private final DatabaseService databaseService;
 
     @GetMapping("/api/admin/pillimehed")
@@ -36,8 +35,18 @@ public class AdminAPI {
         return databaseService.getRepertuaarid();
     }
 
-    @GetMapping("/api/admin/partiid/{partituur}")
+    @GetMapping("/api/admin/partituur/{partituur}/partiid")
     private Stream<Partii> getPartiid(@PathVariable int partituur) {
         return databaseService.getPartiid(partituur);
+    }
+
+    @DeleteMapping("/api/admin/partii/{partiiId}")
+    private void deletePartii(@PathVariable int partiiId) {
+        databaseService.getPartii(partiiId).ifPresent(
+                partii -> {
+                    scoreService.deleteScoreImage(partii);
+                    databaseService.deletePartii(partii);
+                }
+        );
     }
 }

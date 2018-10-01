@@ -21,6 +21,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Log4j2
 public class ScoreService {
+    public void deleteScoreImage(Partii score) {
+        Partituur piece = score.getPartituur();
+        Path scoreImage = Paths.get("scores", piece.getAsukoht(), score.getFail());
+
+        try {
+            Files.deleteIfExists(scoreImage);
+        } catch (IOException e) {
+            log.error("Score deletion failed", e);
+        }
+    }
+
     public void findScoreImage(HttpServletResponse response, Partii score) {
         try {
             Partituur piece = score.getPartituur();
