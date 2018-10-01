@@ -3,10 +3,7 @@ package ee.ut.pillime.noodid.db;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Data
@@ -14,6 +11,8 @@ import java.util.List;
 @Table(name = "pillirühmad", schema = "public")
 public class Pillirühm {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "pillirühm_id_generator")
+    @SequenceGenerator(name = "pillirühm_id_generator", sequenceName = "pillirühmad_id_seq", allocationSize = 1)
     int id;
     String nimi;
 

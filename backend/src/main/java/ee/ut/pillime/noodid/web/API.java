@@ -74,7 +74,7 @@ public class API {
 
     @GetMapping("/api/pdf2svg/{failinimi}")
     private void pdf2svg(@PathVariable String failinimi) {
-        scoreService.pdf2svg(failinimi);
+        scoreService.pdf2svg(null, null);
     }
 
     @GetMapping("/api/statistics")
