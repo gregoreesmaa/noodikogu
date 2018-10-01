@@ -21,9 +21,9 @@ import java.util.stream.Stream;
 @Log4j2
 public class AuthService {
 
-    private static final String ROLE_MASTER = "ROLE_MASTER";
-    private static final String ROLE_ADMIN = "ROLE_ADMIN";
-    private static final String ROLE_USER = "ROLE_USER";
+    public static final String ROLE_MASTER = "ROLE_MASTER";
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_USER = "ROLE_USER";
 
     private static final Map<Integer, List<GrantedAuthority>> AUTHORITIES = Map.of(
             1, AuthorityUtils.createAuthorityList(ROLE_USER),
@@ -82,5 +82,12 @@ public class AuthService {
                 .map(Partituur::getRepertuaarid)
                 .flatMap(Collection::stream)
                 .distinct();
+    }
+
+    public boolean hasRole(String role) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(role::equals);
     }
 }

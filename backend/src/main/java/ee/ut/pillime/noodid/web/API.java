@@ -22,6 +22,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static ee.ut.pillime.noodid.auth.AuthService.ROLE_ADMIN;
+
 @RestController
 @CrossOrigin(allowCredentials = "true")
 @RequiredArgsConstructor
@@ -57,7 +59,10 @@ public class API {
 
     @GetMapping("/api/partii/{partii}")
     private void getPartii(HttpServletResponse response, @PathVariable int partii) throws IOException {
-        Optional<Partii> scoreOptional = databaseService.getPartii(authService.getPillimees().orElse(null), partii);
+        Optional<Partii> scoreOptional = authService.hasRole(ROLE_ADMIN)
+                ? databaseService.getPartii(partii)
+                : databaseService.getPartii(authService.getPillimees().orElse(null), partii);
+
         if (!scoreOptional.isPresent()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             response.flushBuffer();

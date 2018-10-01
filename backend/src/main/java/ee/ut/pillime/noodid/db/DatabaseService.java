@@ -84,7 +84,7 @@ public class DatabaseService {
                 .filter(repertuaar -> repertuaar.getNimi().toLowerCase().contains(osa.toLowerCase()));
     }
 
-    public Optional<Partii> otsiPartii(int id) {
+    public Optional<Partii> getPartii(int id) {
         return partiiRepository.findById(id);
     }
 }
