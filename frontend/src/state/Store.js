@@ -17,6 +17,7 @@ import {
   toggledAdminPieceScores,
   toggledAdminPiecesTab,
   touchscreen,
+  locale,
   user
 } from './reducers';
 import {loadState, saveState} from './localStorage';
@@ -38,7 +39,8 @@ const rootReducer = combineReducers({
   pieces,
   toggledAdminPiece,
   toggledAdminPieceScores,
-  toggledAdminPiecesTab
+  toggledAdminPiecesTab,
+  locale
 });
 
 const persistedState = loadState();

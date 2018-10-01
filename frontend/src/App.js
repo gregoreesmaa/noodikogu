@@ -4,12 +4,22 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {PropsRoute} from './Common';
 import {AdminService, BackendService} from './services';
-import {logOut, touchscreenDetected} from './state';
+import {touchscreenDetected, logOut} from './state';
 import {Menu} from './components';
 import {Library, Login, Piece} from './pages';
 import {AdminPieces, AdminPlayers, AdminPlaylists} from './pages/admin';
 import './App.css';
 import Players from "./pages/Players";
+import {IntlProvider, addLocaleData} from "react-intl";
+import et from 'react-intl/locale-data/et';
+import messages_et_simplified from "./translations/et-simplified.json";
+import messages_et from "./translations/et.json";
+
+addLocaleData([...et]);
+addLocaleData({
+  locale: 'et-simplified',
+  parentLocale: 'et'
+});
 
 class App extends Component {
 
@@ -59,31 +69,38 @@ class App extends Component {
             ContentProps={{ 'aria-describedby': 'message-id' }}
             message={<span id='message-id'>{this.state.error}</span>}
           />*/
-    return !this.props.user
-      ? (<Login/>)
-      : (
-        <div>
-          <Menu/>
-          <Switch>
-            <PropsRoute exact path='/' component={Library}/>
-            <PropsRoute exact path='/piece' component={Piece}/>
-            <PropsRoute exact path='/players' component={Players}/>
-          </Switch>
-          {
-            this.props.user.tase >= 2
-              ? (
-                <div className='adminContainer'>
-                  <Switch>
-                    <PropsRoute exact path='/admin/players' component={AdminPlayers}/>
-                    <PropsRoute exact path='/admin/pieces' component={AdminPieces}/>
-                    <PropsRoute exact path='/admin/playlists' component={AdminPlaylists}/>
-                  </Switch>
-                </div>
-              )
-              : (<div/>)
-          }
-        </div>
-      );
+    const messages = {
+      'et': messages_et,
+      'et-simplified': messages_et_simplified
+    };
+    console.log(messages);
+    return <IntlProvider locale={this.props.locale} messages={messages[this.props.locale]}>
+      {!this.props.user
+        ? (<Login/>)
+        : (
+          <div>
+            <Menu/>
+            <Switch>
+              <PropsRoute exact path='/' component={Library}/>
+              <PropsRoute exact path='/piece' component={Piece}/>
+              <PropsRoute exact path='/players' component={Players}/>
+            </Switch>
+            {
+              this.props.user.tase >= 2
+                ? (
+                  <div className='adminContainer'>
+                    <Switch>
+                      <PropsRoute exact path='/admin/players' component={AdminPlayers}/>
+                      <PropsRoute exact path='/admin/pieces' component={AdminPieces}/>
+                      <PropsRoute exact path='/admin/playlists' component={AdminPlaylists}/>
+                    </Switch>
+                  </div>
+                )
+                : (<div/>)
+            }
+          </div>
+        )}
+    </IntlProvider>;
   }
 
   componentDidUpdate(prevProps) {
@@ -93,7 +110,7 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({dark, user}) => ({dark, user});
+const mapStateToProps = ({dark, user, locale}) => ({dark, user, locale});
 const mapDispatchToProps = dispatch => bindActionCreators({touchscreenDetected, logOut}, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
