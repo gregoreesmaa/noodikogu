@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import Table from '@material-ui/core/Table';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import { AdminService } from '../../services';
-import TableBody from "@material-ui/core/es/TableBody/TableBody";
-import {piecesLoaded} from "../../state/reducers";
-import Chip from "@material-ui/core/es/Chip/Chip";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {AdminService} from '../../services';
+import {adminPieceScoresLoaded, piecesLoaded} from "../../state/reducers";
+import Button from "@material-ui/core/Button/Button";
+import AdminPiecesItem from "../../components/admin/AdminPieceItem";
+import List from '@material-ui/core/List';
 
 class AdminPieces extends Component {
   constructor(props) {
@@ -19,30 +16,29 @@ class AdminPieces extends Component {
   }
 
   render() {
-    return(
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Nimi</TableCell>
-            <TableCell>Repertuaarid</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {this.props.pieces.map(p =>
-            <TableRow key={p.id}>
-              <TableCell>{p.nimi}</TableCell>
-              <TableCell>{p.repertuaarid.map(r =>
-                <Chip key={r.id} label={r.nimi} className='labelChip'/>
-              )}</TableCell>
-            </TableRow>)
+    return (<div>
+        <Button>Muuda lugusid</Button>
+        <Button>Lisa uus lugu</Button>
+        <List component='nav'>
+          {this.props.pieces.map(p => {
+            return <AdminPiecesItem key={p.id} adminPiece={p}/>
+          })
           }
-        </TableBody>
-      </Table>
+        </List>
+      </div>
     );
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.toggledAdminPiece !== this.props.toggledAdminPiece && this.props.toggledAdminPiece >= 0) {
+      this.props.adminPieceScoresLoaded([]);
+      AdminService.getPartiid(this.props.toggledAdminPiece)
+        .then(response => this.props.adminPieceScoresLoaded(response.data));
+    }
   }
 }
 
-const mapStateToProps = ({ pieces, user }) => ({ pieces, user });
-const mapDispatchToProps = dispatch => bindActionCreators({ piecesLoaded }, dispatch);
+const mapStateToProps = ({pieces, user, toggledAdminPiece}) => ({pieces, user, toggledAdminPiece});
+const mapDispatchToProps = dispatch => bindActionCreators({piecesLoaded, adminPieceScoresLoaded}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminPieces);
