@@ -32,11 +32,13 @@ class App extends Component {
     window.addEventListener('touchstart', this.onTouchStart);
 
     BackendService.api.interceptors.response.use(null, error => {
-      this.props.logOut();
+      if (!error.response || error.response.status === 401 || error.response.status === 403)
+        this.props.logOut();
       throw error;
     });
     AdminService.api.interceptors.response.use(null, error => {
-      this.props.logOut();
+      if (!error.response || error.response.status === 401 || error.response.status === 403)
+        this.props.logOut();
       throw error;
     });
   }

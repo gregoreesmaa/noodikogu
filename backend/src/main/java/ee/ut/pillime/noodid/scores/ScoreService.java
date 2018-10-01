@@ -3,6 +3,7 @@ package ee.ut.pillime.noodid.scores;
 import ee.ut.pillime.noodid.db.Partii;
 import ee.ut.pillime.noodid.db.Partituur;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +12,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class ScoreService {
     public void findScoreImage(HttpServletResponse response, Partii score) {
         try {
@@ -29,9 +32,12 @@ public class ScoreService {
 
             InputStream is = Files.newInputStream(scoreImage);
             IOUtils.copy(is, response.getOutputStream());
+        } catch (NoSuchFileException e) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            log.error("Score file not found", e);
         } catch (IOException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            e.printStackTrace();
+            log.error("Failed to find score", e);
         }
     }
 

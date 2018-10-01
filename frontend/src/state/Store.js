@@ -1,8 +1,26 @@
-import { createBrowserHistory } from 'history'
-import { createStore, combineReducers, compose, applyMiddleware } from 'redux'
-import { connectRouter, routerMiddleware } from 'connected-react-router'
-import { filter, filteredList, menu, piece, pieceParts, players, playlists, playlistsOpen, dark, touchscreen, user, locale, statistics } from '.';
-import { loadState, saveState } from './localStorage';
+import {createBrowserHistory} from 'history'
+import {applyMiddleware, combineReducers, compose, createStore} from 'redux'
+import {connectRouter, routerMiddleware} from 'connected-react-router'
+import {
+  dark,
+  filter,
+  filteredList,
+  menu,
+  piece,
+  pieceParts,
+  pieces,
+  players,
+  playlists,
+  playlistsOpen,
+  statistics,
+  toggledAdminPiece,
+  toggledAdminPieceScores,
+  toggledAdminPiecesTab,
+  touchscreen,
+  locale,
+  user
+} from './reducers';
+import {loadState, saveState} from './localStorage';
 import throttle from 'lodash-es/throttle';
 
 const rootReducer = combineReducers({
@@ -17,8 +35,12 @@ const rootReducer = combineReducers({
   pieceParts,
   dark,
   touchscreen,
-  locale,
-  statistics
+  statistics,
+  pieces,
+  toggledAdminPiece,
+  toggledAdminPieceScores,
+  toggledAdminPiecesTab,
+  locale
 });
 
 const persistedState = loadState();

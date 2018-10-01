@@ -8,7 +8,7 @@ export const playlists = (state = [], action) =>
 
 export const playlistsOpen = (state = {}, action) =>
   action.type === PLAYLIST_TOGGLED
-    ? Object.assign({}, state, { [action.id]: !state[action.id] })
+    ? Object.assign({}, state, {[action.id]: !state[action.id]})
     : state;
 
 export const playlistsLoaded = (playlists) => (
