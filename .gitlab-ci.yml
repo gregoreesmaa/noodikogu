@@ -18,6 +18,7 @@ build:backend:
     - docker build -f src/main/docker/Dockerfile -t gregoreesmaa/sahtel:$IMAGE_TAG .
 
 build:frontend:
+  allow_failure: true
   stage: build
   script:
     - cd frontend
@@ -77,4 +78,24 @@ deploy:test:
   dependencies:
     - build:backend
     - build:frontend
-    
+
+deploy:test-backend-only:
+  stage: deploy
+  when: manual
+  script:
+  - docker kill noodid-test || echo "No container exists"
+  - docker rm noodid-test || echo "No container exists"
+  - docker run -d
+    --name noodid-test
+    -v /var/www/noodid-test/configuration:/conf
+    -v /var/www/noodid-test/logs:/logs
+    -v /var/www/noodid-test/scores:/scores
+    --expose 8086
+    -p 8086:8086
+    --restart=unless-stopped
+    gregoreesmaa/sahtel:$IMAGE_TAG
+  environment:
+    name: test
+    url: https://noodid-test.ninata.ga/
+  dependencies:
+  - build:backend
