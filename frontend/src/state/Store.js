@@ -15,6 +15,7 @@ import {
   statistics,
   toggledAdminPiece,
   toggledAdminPieceScores,
+  toggledAdminPiecesTab,
   touchscreen,
   user
 } from './reducers';
@@ -36,7 +37,8 @@ const rootReducer = combineReducers({
   statistics,
   pieces,
   toggledAdminPiece,
-  toggledAdminPieceScores
+  toggledAdminPieceScores,
+  toggledAdminPiecesTab
 });
 
 const persistedState = loadState();

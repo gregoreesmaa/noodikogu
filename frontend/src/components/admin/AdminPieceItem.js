@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Collapse from '@material-ui/core/Collapse';
-import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -10,7 +9,6 @@ import MusicNote from '@material-ui/icons/MusicNote';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import {adminPieceToggled} from '../../state/index';
-import ScoreView from "../ScoreView";
 import ScoreHeaderView from "./ScoreHeaderView";
 import GridList from "@material-ui/core/GridList/GridList";
 

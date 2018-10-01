@@ -9,3 +9,4 @@ export * from './UserReducer';
 export * from './StatisticsReducer';
 export * from './PiecesReducer';
 export * from './AdminPieceReducer';
+export * from './AdminPiecesPageReducer'
