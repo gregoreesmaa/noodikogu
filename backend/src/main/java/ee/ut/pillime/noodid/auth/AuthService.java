@@ -3,6 +3,8 @@ package ee.ut.pillime.noodid.auth;
 import ee.ut.pillime.noodid.db.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,8 +42,14 @@ public class AuthService {
     }
 
     public User getUser() {
-        AuthToken authToken = (AuthToken) SecurityContextHolder.getContext().getAuthentication();
-        return (User) authToken.getPrincipal();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            return new User();
+        } else if (authentication instanceof AuthToken) {
+            AuthToken authToken = (AuthToken) authentication;
+            return (User) authToken.getPrincipal();
+        }
+        throw new IllegalStateException("User authentication invalid");
     }
 
     public Optional<Pillimees> getPillimees() {

@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { Switch, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { PropsRoute } from './Common';
-import { AdminService, BackendService } from './services';
-import { touchscreenDetected, logOut } from './state';
-import { Menu } from './components';
-import { Library, Login, Piece } from './pages';
-import { AdminPieces, AdminPlayers, AdminPlaylists } from './pages/admin';
+import React, {Component} from 'react';
+import {Switch, withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {PropsRoute} from './Common';
+import {AdminService, BackendService} from './services';
+import {logOut, touchscreenDetected} from './state';
+import {Menu} from './components';
+import {Library, Login, Piece} from './pages';
+import {AdminPieces, AdminPlayers, AdminPlaylists} from './pages/admin';
 import './App.css';
 import Players from "./pages/Players";
 
@@ -22,11 +22,13 @@ class App extends Component {
     window.addEventListener('touchstart', this.onTouchStart);
 
     BackendService.api.interceptors.response.use(null, error => {
-      this.props.logOut();
+      if (!error.response || error.response.status === 401 || error.response.status === 403)
+        this.props.logOut();
       throw error;
     });
     AdminService.api.interceptors.response.use(null, error => {
-      this.props.logOut();
+      if (!error.response || error.response.status === 401 || error.response.status === 403)
+        this.props.logOut();
       throw error;
     });
   }
@@ -58,27 +60,27 @@ class App extends Component {
             message={<span id='message-id'>{this.state.error}</span>}
           />*/
     return !this.props.user
-      ? (<Login />)
+      ? (<Login/>)
       : (
         <div>
-          <Menu />
+          <Menu/>
           <Switch>
-            <PropsRoute exact path='/' component={Library} />
-            <PropsRoute exact path='/piece' component={Piece} />
-            <PropsRoute exact path='/players' component={Players} />
+            <PropsRoute exact path='/' component={Library}/>
+            <PropsRoute exact path='/piece' component={Piece}/>
+            <PropsRoute exact path='/players' component={Players}/>
           </Switch>
           {
             this.props.user.tase >= 2
               ? (
                 <div className='adminContainer'>
                   <Switch>
-                    <PropsRoute exact path='/admin/players' component={AdminPlayers} />
-                    <PropsRoute exact path='/admin/pieces' component={AdminPieces} />
-                    <PropsRoute exact path='/admin/playlists' component={AdminPlaylists} />
+                    <PropsRoute exact path='/admin/players' component={AdminPlayers}/>
+                    <PropsRoute exact path='/admin/pieces' component={AdminPieces}/>
+                    <PropsRoute exact path='/admin/playlists' component={AdminPlaylists}/>
                   </Switch>
                 </div>
               )
-              : (<div />)
+              : (<div/>)
           }
         </div>
       );
@@ -91,7 +93,7 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ dark, user }) => ({ dark, user });
-const mapDispatchToProps = dispatch => bindActionCreators({ touchscreenDetected, logOut }, dispatch);
+const mapStateToProps = ({dark, user}) => ({dark, user});
+const mapDispatchToProps = dispatch => bindActionCreators({touchscreenDetected, logOut}, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

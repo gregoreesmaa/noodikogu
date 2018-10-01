@@ -4,6 +4,7 @@ import ee.ut.pillime.noodid.db.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.stream.Stream;
@@ -36,7 +37,7 @@ public class AdminAPI {
     }
 
     @GetMapping("/api/admin/partiid/{partituur}")
-    private Stream<Partii> getPartiid(int partituur) {
+    private Stream<Partii> getPartiid(@PathVariable int partituur) {
         return databaseService.getPartiid(partituur);
     }
 }
