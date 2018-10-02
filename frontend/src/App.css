@@ -17,6 +17,11 @@
   max-width: 80vw;
 }
 
+.newPieceForm {
+  width: 100%;
+  max-width: 180px;
+}
+
 .container, .adminContainer {
   max-width: 1000px;
   margin: 0 auto;

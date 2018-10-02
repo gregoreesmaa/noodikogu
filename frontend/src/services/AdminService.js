@@ -9,5 +9,6 @@ export default {
   getPartituurid: () => api.get('partituurid'),
   getRepertuaarid: () => api.get('repertuaarid'),
   deleteScore: (id) => api.delete('partii/' + id),
-  search: (query) => api.get('otsi/' + encodeURIComponent(query))
+  search: (query) => api.get('otsi/' + encodeURIComponent(query)),
+  addPartituur: (file, name) => api.post('partituur')
 }

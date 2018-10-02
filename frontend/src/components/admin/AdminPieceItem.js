@@ -16,12 +16,14 @@ import {adminPieceScoresLoaded} from "../../state/reducers";
 
 class AdminPieceItem extends Component {
 
-  deleteScore(pieceId, scoreId) {
-    AdminService.deleteScore(scoreId)
-      .then(() =>
-        AdminService.getPartiid(this.props.piece.id)
-          .then(response => this.props.adminPieceScoresLoaded(response.data))
-      );
+  deleteScore(scoreId) {
+    if (window.confirm("Kas kustutada partii?")) {
+      AdminService.deleteScore(scoreId)
+        .then(() =>
+          AdminService.getPartiid(this.props.piece.id)
+            .then(response => this.props.adminPieceScoresLoaded(response.data))
+        );
+    }
   };
 
   render() {

@@ -12,7 +12,7 @@ export default ({score, deleteScore}) => (
     <img src={Constants.SERVER_URL + '/api/partii/' + score.id} alt='...'/>
     <GridListTileBar
       className="scoreHeaderInfo"
-      title={"test"}
+      title={""}
       titlePosition="top"
       actionIcon={
         <div>

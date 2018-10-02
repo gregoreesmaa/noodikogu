@@ -1,10 +1,13 @@
 package ee.ut.pillime.noodid.web;
 
 import ee.ut.pillime.noodid.db.*;
+import ee.ut.pillime.noodid.scores.PieceService;
 import ee.ut.pillime.noodid.scores.ScoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.stream.Stream;
 
 @RestController
@@ -12,6 +15,7 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class AdminAPI {
 
+    private final PieceService pieceService;
     private final ScoreService scoreService;
     private final DatabaseService databaseService;
 
@@ -48,5 +52,11 @@ public class AdminAPI {
                     databaseService.deletePartii(partii);
                 }
         );
+    }
+
+    @PostMapping("/api/admin/partituur")
+    private void addPartituur(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) throws IOException {
+        Partituur partituur = pieceService.addNewPiece(name);
+        pieceService.saveFile(file, partituur);
     }
 }
