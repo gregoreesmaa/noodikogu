@@ -47,6 +47,7 @@ public class AdminAPI {
         newPlayer.setNimi(name);
         newPlayer.setKontaktinfo(info);
         databaseService.addPlayer(newPlayer);
+    }
 
     @GetMapping("/api/admin/flutePlayers")
     private int getFlutePlayers() {
