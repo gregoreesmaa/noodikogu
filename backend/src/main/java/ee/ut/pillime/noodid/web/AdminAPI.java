@@ -1,6 +1,7 @@
 package ee.ut.pillime.noodid.web;
 
 import ee.ut.pillime.noodid.db.*;
+import ee.ut.pillime.noodid.notification.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.stream.Stream;
 public class AdminAPI {
 
     private final DatabaseService databaseService;
+    private final NotificationService notificationService;
 
     @GetMapping("/api/admin/pillimehed")
     private Stream<Pillimees> getPillimees() {
@@ -46,6 +48,7 @@ public class AdminAPI {
         newPlayer.setNimi(name);
         newPlayer.setKontaktinfo(info);
         databaseService.addPlayer(newPlayer);
+        notificationService.sendRegistrationInfo(newPlayer);
     }
 
     @GetMapping("/api/admin/flutePlayers")
