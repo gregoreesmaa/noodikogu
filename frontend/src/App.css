@@ -20,7 +20,7 @@
 .newPieceForm {
   width: 100%;
   max-width: 180px;
-  margin: 0 auto;
+  margin: 8px auto;
 }
 
 .container, .adminContainer {
@@ -79,7 +79,7 @@ Smooth scrolling in Safari (on Apple devices)
 }
 
 .scoreHeaderInfo {
-  background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 70%, rgba(0,0,0,0) 100%) !important;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.1) 70%, rgba(0, 0, 0, 0) 100%) !important;
 }
 
 /* If width > height */
