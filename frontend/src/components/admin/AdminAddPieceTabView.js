@@ -8,10 +8,15 @@ import {AdminService} from "../../services";
 class AdminAddPieceTabView extends Component {
 
   handleFieldChange = (fieldName) => (event) => Object.assign(this.fields, {[fieldName]: event.target.value});
+  handleFileChange = (fieldName) => (event) => Object.assign(this.fields, {[fieldName]: event.target.files[0]});
+
   fields = {};
 
-  saveFile(multiPathFile, name) {
-    AdminService.addPartituur(multiPathFile, name)
+  saveFile() {
+    const formData = new FormData();
+    formData.append('name', this.fields.name);
+    formData.append('file', this.fields.file);
+    AdminService.addPartituur(formData)
   }
 
   render() {
@@ -23,8 +28,17 @@ class AdminAddPieceTabView extends Component {
           margin='normal'
           onChange={this.handleFieldChange('name')}
         />
-        <input type="file" id="raised-button-file"/>
-        <Button variant="raised" onClick={(p) => this.saveFile(p, this.props.name)}>Loo uus lugu</Button>
+        <input
+          type="file"
+          id="raised-button-file"
+          onChange={this.handleFileChange('file')}
+        />
+        <Button
+          variant="raised"
+          onClick={() => this.saveFile()}
+        >
+          Loo uus lugu
+        </Button>
       </div>
     )
   }

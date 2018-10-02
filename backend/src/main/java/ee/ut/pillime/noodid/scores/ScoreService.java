@@ -4,6 +4,7 @@ import ee.ut.pillime.noodid.db.Partii;
 import ee.ut.pillime.noodid.db.Partituur;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +75,7 @@ public class ScoreService {
             Files.list(splitPages)
                     .filter(page -> page.toString().endsWith(".pdf"))
                     .forEach(path -> runCommand("inkscape", "-l", dest.resolve(path.getFileName().toString() + ".svg").toString(), path.toString()));
+            FileUtils.forceDelete(splitPages.toFile());
         } catch (IOException e) {
             log.error("Failed to convert PDF to SVG", e);
         }

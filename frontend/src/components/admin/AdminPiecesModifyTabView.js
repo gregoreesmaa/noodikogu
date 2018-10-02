@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {bindActionCreators} from "redux";
 import connect from "react-redux/es/connect/connect";
 import List from "@material-ui/core/List/List";
-import AdminPiecesItem from "./AdminPieceItem";
+import AdminPieceItem from "./AdminPieceItem";
 import {AdminService} from "../../services";
 import {adminPieceScoresLoaded, piecesLoaded} from "../../state/reducers";
 
@@ -17,7 +17,7 @@ class AdminPiecesModifyTabView extends Component {
   render() {
     return <List component='nav'>
       {
-        this.props.pieces.map(p => <AdminPiecesItem key={p.id} piece={p}/>)
+        this.props.pieces.map(p => <AdminPieceItem key={p.id} piece={p}/>)
       }
     </List>;
   }
@@ -31,7 +31,13 @@ class AdminPiecesModifyTabView extends Component {
   }
 }
 
-const pieceStateToProps = ({pieces, toggledAdminPiece}) => ({pieces, toggledAdminPiece});
-const pieceDispatchToProps = dispatch => bindActionCreators({piecesLoaded, adminPieceScoresLoaded}, dispatch);
+const pieceStateToProps = ({pieces, toggledAdminPiece}) => ({
+  pieces,
+  toggledAdminPiece
+});
+const pieceDispatchToProps = dispatch => bindActionCreators({
+  piecesLoaded,
+  adminPieceScoresLoaded
+}, dispatch);
 
 export default connect(pieceStateToProps, pieceDispatchToProps)(AdminPiecesModifyTabView);

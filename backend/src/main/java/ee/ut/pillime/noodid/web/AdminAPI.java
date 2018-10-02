@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.stream.Stream;
 
 @RestController
@@ -44,6 +43,17 @@ public class AdminAPI {
         return databaseService.getPartiid(partituur);
     }
 
+    @DeleteMapping("/api/admin/partii/{piece}")
+    private void deletePiece(@PathVariable int pieceId) {
+        databaseService.getPartituur(pieceId).ifPresent(
+                piece -> {
+                    pieceService.deletePieceFiles(piece);
+                    // TODO delete linked scores
+                    databaseService.deletePartituur(piece);
+                }
+        );
+    }
+
     @DeleteMapping("/api/admin/partii/{partiiId}")
     private void deletePartii(@PathVariable int partiiId) {
         databaseService.getPartii(partiiId).ifPresent(
@@ -55,8 +65,8 @@ public class AdminAPI {
     }
 
     @PostMapping("/api/admin/partituur")
-    private void addPartituur(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) throws IOException {
+    private void addPartituur(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) {
         Partituur partituur = pieceService.addNewPiece(name);
-        pieceService.saveFile(file, partituur);
+        pieceService.importFile(file, partituur);
     }
 }

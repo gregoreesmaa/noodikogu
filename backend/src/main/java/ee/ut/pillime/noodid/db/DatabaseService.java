@@ -105,14 +105,22 @@ public class DatabaseService {
         partiiRepository.delete(partii);
     }
 
+    public Optional<Partituur> getPartituur(int id) {
+        return partituurRepository.findById(id);
+    }
+
+    public void deletePartituur(Partituur piece) {
+        partituurRepository.delete(piece);
+    }
+
     public Optional<Partituur> getPieceByFolder(String pieceFolder) {
         return getPartituurid()
                 .filter(piece -> piece.getAsukoht().equals(pieceFolder))
                 .findAny();
     }
 
-    public Optional<Partii> getScoreByFolderAndFilename(String pieceFolder, String filename) {
-        return getPieceByFolder(pieceFolder)
+    public Optional<Partii> getScoreByFolderAndFilename(Partituur partituur, String filename) {
+        return Optional.ofNullable(partituur)
                 .map(Partituur::getPartiid)
                 .stream()
                 .flatMap(List::stream)
