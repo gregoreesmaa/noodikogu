@@ -5,7 +5,7 @@ import connect from "react-redux/es/connect/connect";
 import Button from "@material-ui/core/Button/Button";
 import {AdminService} from "../../services";
 
-class AdminAddPieceTabView extends Component {
+class AdminPiecesCreate extends Component {
 
   handleFieldChange = (fieldName) => (event) => Object.assign(this.fields, {[fieldName]: event.target.value});
   handleFileChange = (fieldName) => (event) => Object.assign(this.fields, {[fieldName]: event.target.files[0]});
@@ -47,4 +47,4 @@ class AdminAddPieceTabView extends Component {
 const pieceStateToProps = ({saveFile}) => ({saveFile});
 const pieceDispatchToProps = dispatch => bindActionCreators({}, dispatch);
 
-export default connect(pieceStateToProps, pieceDispatchToProps)(AdminAddPieceTabView);
+export default connect(pieceStateToProps, pieceDispatchToProps)(AdminPiecesCreate);

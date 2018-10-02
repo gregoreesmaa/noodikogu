@@ -6,7 +6,7 @@ import AdminPieceItem from "./AdminPieceItem";
 import {AdminService} from "../../services";
 import {adminPieceScoresLoaded, piecesLoaded} from "../../state/reducers";
 
-class AdminPiecesModifyTabView extends Component {
+class AdminPiecesModify extends Component {
   constructor(props) {
     super(props);
 
@@ -40,4 +40,4 @@ const pieceDispatchToProps = dispatch => bindActionCreators({
   adminPieceScoresLoaded
 }, dispatch);
 
-export default connect(pieceStateToProps, pieceDispatchToProps)(AdminPiecesModifyTabView);
+export default connect(pieceStateToProps, pieceDispatchToProps)(AdminPiecesModify);

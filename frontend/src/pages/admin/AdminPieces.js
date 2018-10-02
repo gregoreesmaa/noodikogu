@@ -4,9 +4,9 @@ import {bindActionCreators} from 'redux';
 import {adminPiecesTabToggled} from "../../state/reducers";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
-import AdminPiecesModifyTabView from "../../components/admin/AdminPiecesModifyTabView";
+import AdminPiecesModifyTabView from "../../components/admin/AdminPiecesModify";
 import Paper from "@material-ui/core/Paper/Paper";
-import AdminAddPieceTabView from "../../components/admin/AdminAddPieceTabView";
+import AdminAddPieceTabView from "../../components/admin/AdminPiecesCreate";
 
 const AdminPieces = ({toggledAdminPiecesTab, adminPiecesTabToggled}) =>
   <div className={'adminPieceTabs'}>
