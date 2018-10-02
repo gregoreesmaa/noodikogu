@@ -6,10 +6,7 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Collection;
 
 @Data
@@ -17,6 +14,8 @@ import java.util.Collection;
 @Table(name = "kasutajad", schema = "public")
 public class User implements UserDetails {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "user_id_generator")
+    @SequenceGenerator(name = "user_id_generator", sequenceName = "kasutajad_id_seq", allocationSize = 1)
     private int id;
     private String kasutajanimi;
     @JsonIgnore

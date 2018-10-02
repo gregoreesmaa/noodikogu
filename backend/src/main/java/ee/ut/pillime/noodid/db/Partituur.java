@@ -12,6 +12,8 @@ import java.util.List;
 @Table(name = "partituurid", schema = "public")
 public class Partituur {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "partituur_id_generator")
+    @SequenceGenerator(name = "partituur_id_generator", sequenceName = "partituurid_id_seq", allocationSize = 1)
     private int id;
     private String nimi;
     private String asukoht;
@@ -23,7 +25,7 @@ public class Partituur {
             inverseJoinColumns = @JoinColumn(name = "repertuaar"))
     List<Repertuaar> repertuaarid;
 
-    @OneToMany(mappedBy = "partituur")
+    @OneToMany(mappedBy = "partituur", fetch = FetchType.EAGER)
     //@JsonIgnoreProperties({"partituur", "pillirühmad"})
     @JsonIgnore
     List<Partii> partiid;
