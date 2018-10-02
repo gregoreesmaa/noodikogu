@@ -26,29 +26,29 @@ class Players extends Component {
   render() {
     return this.props.players
       ? (<div>
-        <Table className='playerContainer'>
-          <TableHead>
-            <TableRow>
-              <TableCell>Nimi</TableCell>
-              <TableCell>Kontaktinfo</TableCell>
-              <TableCell>Pillirühmad</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.props.players.map(p => {
-              return (
-                <TableRow key={p.id}>
-                  <TableCell component='th' scope='row'>{p.nimi}</TableCell>
-                  <TableCell>{p.kontaktinfo}</TableCell>
-                  <TableCell>{p.pillirühmad.map(pr => (
-                    <Chip key={pr.id} label={pr.nimi} className='labelChip' />
-                  ))}</TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-          <div>Flöödimängijaid orkestris on {this.flutePlayers}</div>
+          <Table className='playerContainer'>
+            <TableHead>
+              <TableRow>
+                <TableCell>Nimi</TableCell>
+                <TableCell>Kontaktinfo</TableCell>
+                <TableCell>Pillirühmad</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {this.props.players.map(p => {
+                return (
+                  <TableRow key={p.id}>
+                    <TableCell component='th' scope='row'>{p.nimi}</TableCell>
+                    <TableCell>{p.kontaktinfo}</TableCell>
+                    <TableCell>{p.pillirühmad.map(pr => (
+                      <Chip key={pr.id} label={pr.nimi} className='labelChip' />
+                    ))}</TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+          <div class="playerContainer">Flöödimängijaid orkestris on {this.flutePlayers}</div>
         </div>
       )
       : (<div />);
