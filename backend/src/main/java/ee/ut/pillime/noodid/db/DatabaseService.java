@@ -37,6 +37,11 @@ public class DatabaseService {
         return newScore;
     }
 
+    public Pillimees addPlayer(Pillimees newPlayer) {
+        pillimeesRepository.save(newPlayer);
+        return newPlayer;
+    }
+
     public Stream<User> getUsers() {
         return stream(userRepository.findAll());
     }
