@@ -1,22 +1,26 @@
 package ee.ut.pillime.noodid.web;
 
 import ee.ut.pillime.noodid.db.*;
+import ee.ut.pillime.noodid.notification.NotificationService;
 import ee.ut.pillime.noodid.scores.PieceService;
 import ee.ut.pillime.noodid.scores.ScoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.stream.Stream;
 
 @RestController
 @CrossOrigin(allowCredentials = "true")
 @RequiredArgsConstructor
+@Log4j2
 public class AdminAPI {
 
     private final PieceService pieceService;
     private final ScoreService scoreService;
     private final DatabaseService databaseService;
+    private final NotificationService notificationService;
 
     @GetMapping("/api/admin/pillimehed")
     private Stream<Pillimees> getPillimees() {
@@ -43,6 +47,7 @@ public class AdminAPI {
         return databaseService.getPartiid(partituur);
     }
 
+<<<<<<< backend/src/main/java/ee/ut/pillime/noodid/web/AdminAPI.java
     @DeleteMapping("/api/admin/partii/{piece}")
     private void deletePiece(@PathVariable int pieceId) {
         databaseService.getPartituur(pieceId).ifPresent(
@@ -68,5 +73,19 @@ public class AdminAPI {
     private void addPartituur(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) {
         Partituur partituur = pieceService.addNewPiece(name);
         pieceService.importFile(file, partituur);
+    }
+
+    @PostMapping("/api/admin/pillimehed")
+    private void addPlayer(@RequestParam("newPlayerName") String name, @RequestParam("newPlayerInfo") String info) {
+        Pillimees newPlayer = new Pillimees();
+        newPlayer.setNimi(name);
+        newPlayer.setKontaktinfo(info);
+        databaseService.addPlayer(newPlayer);
+        notificationService.sendRegistrationInfo(newPlayer);
+    }
+
+    @GetMapping("/api/admin/flutePlayers")
+    private int getFlutePlayers() {
+        return databaseService.getFlutePlayersCount();
     }
 }

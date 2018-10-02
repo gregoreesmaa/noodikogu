@@ -14,5 +14,7 @@ export default {
   deleteScore: (id) => api.delete('partii/' + id),
   deletePiece: (id) => api.delete('partituur/' + id),
   search: (query) => api.get('otsi/' + encodeURIComponent(query)),
-  addPartituur: (form) => api.post('partituur', form, {headers: {'content-type': 'multipart/form-data'}})
+  addPartituur: (form) => api.post('partituur', form, {headers: {'content-type': 'multipart/form-data'}}),
+  addNewPlayer: (newPlayer) => api.post('pillimehed', newPlayer),
+  getFlutePlayers: () => api.get('flutePlayers')
 }

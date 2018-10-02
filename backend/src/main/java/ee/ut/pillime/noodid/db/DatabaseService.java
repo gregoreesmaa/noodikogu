@@ -37,6 +37,11 @@ public class DatabaseService {
         return newScore;
     }
 
+    public Pillimees addPlayer(Pillimees newPlayer) {
+        pillimeesRepository.save(newPlayer);
+        return newPlayer;
+    }
+
     public Stream<User> getUsers() {
         return stream(userRepository.findAll());
     }
@@ -111,6 +116,10 @@ public class DatabaseService {
 
     public void deletePartituur(Partituur piece) {
         partituurRepository.delete(piece);
+    }
+
+    public int getFlutePlayersCount() {
+        return pillimeesRepository.flutePlayersCount();
     }
 
     public Optional<Partituur> getPieceByFolder(String pieceFolder) {
