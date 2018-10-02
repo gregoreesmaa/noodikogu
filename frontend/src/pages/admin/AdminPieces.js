@@ -4,8 +4,9 @@ import {bindActionCreators} from 'redux';
 import {adminPiecesTabToggled} from "../../state/reducers";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
-import AdminPiecesModifyTabView from "../../components/admin/AdminPiecesModifyTabView";
+import AdminPiecesModifyTabView from "../../components/admin/AdminPiecesModify";
 import Paper from "@material-ui/core/Paper/Paper";
+import AdminAddPieceTabView from "../../components/admin/AdminPiecesCreate";
 
 const AdminPieces = ({toggledAdminPiecesTab, adminPiecesTabToggled}) =>
   <div className={'adminPieceTabs'}>
@@ -20,7 +21,7 @@ const AdminPieces = ({toggledAdminPiecesTab, adminPiecesTabToggled}) =>
       </Tabs>
     </Paper>
     {toggledAdminPiecesTab === 0 && <AdminPiecesModifyTabView/>}
-    {toggledAdminPiecesTab === 1 && <div>Item Two</div>}
+    {toggledAdminPiecesTab === 1 && <AdminAddPieceTabView/>}
   </div>;
 const mapStateToProps = ({toggledAdminPiecesTab}) => ({toggledAdminPiecesTab});
 const mapDispatchToProps = dispatch => bindActionCreators({adminPiecesTabToggled}, dispatch);

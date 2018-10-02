@@ -4,6 +4,7 @@ import ee.ut.pillime.noodid.db.Partii;
 import ee.ut.pillime.noodid.db.Partituur;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +18,23 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Log4j2
 public class ScoreService {
+    public void deleteScoreImage(Partii score) {
+        Partituur piece = score.getPartituur();
+        Path scoreImage = Paths.get("scores", piece.getAsukoht(), score.getFail());
+
+        try {
+            Files.deleteIfExists(scoreImage);
+        } catch (IOException e) {
+            log.error("Score deletion failed", e);
+        }
+    }
+
     public void findScoreImage(HttpServletResponse response, Partii score) {
         try {
             Partituur piece = score.getPartituur();
@@ -63,6 +76,7 @@ public class ScoreService {
             Files.list(splitPages)
                     .filter(page -> page.toString().endsWith(".pdf"))
                     .forEach(path -> runCommand("inkscape", "-l", dest.resolve(path.getFileName().toString() + ".svg").toString(), path.toString()));
+            FileUtils.forceDelete(splitPages.toFile());
         } catch (IOException e) {
             log.error("Failed to convert PDF to SVG", e);
         }
@@ -70,6 +84,7 @@ public class ScoreService {
 
     private void runCommand(String... command) {
         try {
+            log.info("Running command: " + Arrays.stream(command).collect(Collectors.joining(" ")));
             ProcessBuilder pb = new ProcessBuilder(command);
             pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             pb.redirectError(ProcessBuilder.Redirect.INHERIT);
