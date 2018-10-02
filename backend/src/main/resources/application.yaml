@@ -28,4 +28,3 @@ server:
 spring.mail:
   host: 192.168.1.2
   port: 25
-  properties: mail.smtp.starttls.enable=true

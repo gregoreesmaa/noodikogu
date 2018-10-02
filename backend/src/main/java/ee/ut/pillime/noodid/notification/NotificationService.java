@@ -18,6 +18,7 @@ public class NotificationService {
     public void sendRegistrationInfo(Pillimees player) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("Noodikogu <noreply@noodid.ninata.ga>");
             message.setTo(player.getKontaktinfo());
             message.setSubject("Olete lisatud Noodikogu süsteemi");
             message.setText("Olete lisatud Noodikogu süsteemi. Endale kasutaja loomiseks külasta URLi: https://noodid.ninata.ga/");
