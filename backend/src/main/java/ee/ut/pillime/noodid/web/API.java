@@ -72,11 +72,6 @@ public class API {
         scoreService.findScoreImage(response, scoreOptional.get());
     }
 
-    @GetMapping("/api/pdf2svg/{failinimi}")
-    private void pdf2svg(@PathVariable String failinimi) {
-        scoreService.pdf2svg(failinimi);
-    }
-
     @GetMapping("/api/statistics")
     private StatisticsResult getStatistics() throws IOException {
         return statisticsService.getStatistics();

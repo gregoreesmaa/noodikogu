@@ -11,6 +11,8 @@ import java.util.List;
 @Table(name = "partiid", schema = "public")
 public class Partii {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "partii_id_generator")
+    @SequenceGenerator(name = "partii_id_generator", sequenceName = "partiid_id_seq", allocationSize = 1)
     int id;
     String fail;
 
