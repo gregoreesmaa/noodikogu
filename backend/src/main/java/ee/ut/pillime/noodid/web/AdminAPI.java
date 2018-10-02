@@ -47,7 +47,6 @@ public class AdminAPI {
         return databaseService.getPartiid(partituur);
     }
 
-<<<<<<< backend/src/main/java/ee/ut/pillime/noodid/web/AdminAPI.java
     @DeleteMapping("/api/admin/partii/{piece}")
     private void deletePiece(@PathVariable int pieceId) {
         databaseService.getPartituur(pieceId).ifPresent(
