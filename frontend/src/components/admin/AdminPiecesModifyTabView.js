@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {bindActionCreators} from "redux";
-import connect from "react-redux/es/connect/connect";
+import {connect} from "react-redux";
 import List from "@material-ui/core/List/List";
 import AdminPiecesItem from "./AdminPieceItem";
 import {AdminService} from "../../services";
