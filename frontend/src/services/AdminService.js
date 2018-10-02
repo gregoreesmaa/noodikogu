@@ -8,5 +8,6 @@ export default {
   getPartiid: (partituur) => api.get('partiid/' + partituur),
   getPartituurid: () => api.get('partituurid'),
   getRepertuaarid: () => api.get('repertuaarid'),
-  search: (query) => api.get('otsi/' + encodeURIComponent(query))
+  search: (query) => api.get('otsi/' + encodeURIComponent(query)),
+  getFlutePlayers: () => api.get('flutePlayers')
 }

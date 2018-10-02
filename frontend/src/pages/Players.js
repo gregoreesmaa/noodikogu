@@ -1,27 +1,31 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import Chip from '@material-ui/core/Chip';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { AdminService } from '../services';
-import { playersLoaded } from '../state';
+import {AdminService} from '../services';
+import {playersLoaded} from '../state';
 
 
 class Players extends Component {
+  flutePlayers = 0;
 
   constructor(props) {
     super(props);
 
     this.componentDidUpdate({});
+
+    AdminService.getFlutePlayers()
+      .then(response => this.flutePlayers = response.data);
   }
 
   render() {
     return this.props.players
-      ? (
+      ? (<div>
         <Table className='playerContainer'>
           <TableHead>
             <TableRow>
@@ -44,6 +48,8 @@ class Players extends Component {
             })}
           </TableBody>
         </Table>
+          <div>Flöödimängijaid orkestris on {this.flutePlayers}</div>
+        </div>
       )
       : (<div />);
   }
