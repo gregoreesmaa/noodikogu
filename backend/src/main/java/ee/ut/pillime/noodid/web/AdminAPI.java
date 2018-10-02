@@ -2,16 +2,15 @@ package ee.ut.pillime.noodid.web;
 
 import ee.ut.pillime.noodid.db.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Stream;
 
 @RestController
 @CrossOrigin(allowCredentials = "true")
 @RequiredArgsConstructor
+@Log4j2
 public class AdminAPI {
 
     private final DatabaseService databaseService;
@@ -39,5 +38,14 @@ public class AdminAPI {
     @GetMapping("/api/admin/partiid/{partituur}")
     private Stream<Partii> getPartiid(@PathVariable int partituur) {
         return databaseService.getPartiid(partituur);
+    }
+
+    @PostMapping("/api/admin/pillimehed")
+    private void addPlayer(@RequestParam("newPlayerName") String name, @RequestParam("newPlayerInfo") String info) {
+        System.out.println("nimi: " + name + "; info: " + info);
+        Pillimees newPlayer = new Pillimees();
+        newPlayer.setNimi(name);
+        newPlayer.setKontaktinfo(info);
+        databaseService.addPlayer(newPlayer);
     }
 }
