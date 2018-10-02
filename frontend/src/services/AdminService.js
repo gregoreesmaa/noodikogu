@@ -9,5 +9,6 @@ export default {
   getPartituurid: () => api.get('partituurid'),
   getRepertuaarid: () => api.get('repertuaarid'),
   search: (query) => api.get('otsi/' + encodeURIComponent(query)),
-  addNewPlayer: (newPlayer) => api.post('pillimehed', newPlayer)
+  addNewPlayer: (newPlayer) => api.post('pillimehed', newPlayer),
+  getFlutePlayers: () => api.get('flutePlayers')
 }
