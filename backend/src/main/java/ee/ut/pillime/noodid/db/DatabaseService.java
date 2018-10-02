@@ -101,6 +101,10 @@ public class DatabaseService {
         return partiiRepository.findById(id);
     }
 
+    public int getFlutePlayersCount() {
+        return pillimeesRepository.flutePlayersCount();
+    }
+    
     public Optional<Partituur> getPieceByFolder(String pieceFolder) {
         return getPartituurid()
                 .filter(piece -> piece.getAsukoht().equals(pieceFolder))

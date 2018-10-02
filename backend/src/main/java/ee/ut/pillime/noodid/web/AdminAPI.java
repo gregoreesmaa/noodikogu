@@ -40,4 +40,9 @@ public class AdminAPI {
     private Stream<Partii> getPartiid(@PathVariable int partituur) {
         return databaseService.getPartiid(partituur);
     }
+
+    @GetMapping("/api/admin/flutePlayers")
+    private int getFlutePlayers() {
+        return databaseService.getFlutePlayersCount();
+    }
 }
