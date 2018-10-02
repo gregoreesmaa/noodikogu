@@ -74,6 +74,11 @@ public class PieceService {
         Partituur partituur = new Partituur();
         partituur.setNimi(nimi);
         partituur.setAsukoht(nimi.toLowerCase().replace('ä', 'a').replace('ö', 'o').replace('õ', 'o').replace('ü', 'u').replace(' ', '_'));
+        try {
+            Files.createDirectories(getPiecePath(partituur));
+        } catch (IOException e) {
+            log.error("Failed to create piece directory", e);
+        }
         databaseService.addPartituur(partituur);
         return partituur;
     }

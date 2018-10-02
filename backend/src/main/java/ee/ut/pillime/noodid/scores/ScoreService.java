@@ -18,6 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -83,6 +84,7 @@ public class ScoreService {
 
     private void runCommand(String... command) {
         try {
+            log.info("Running command: " + Arrays.stream(command).collect(Collectors.joining(" ")));
             ProcessBuilder pb = new ProcessBuilder(command);
             pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             pb.redirectError(ProcessBuilder.Redirect.INHERIT);
