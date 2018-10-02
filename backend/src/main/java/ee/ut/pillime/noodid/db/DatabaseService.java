@@ -1,13 +1,15 @@
 package ee.ut.pillime.noodid.db;
 
-import static com.google.common.collect.Streams.stream;
 import ee.ut.pillime.noodid.db.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import static com.google.common.collect.Streams.stream;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,16 @@ public class DatabaseService {
     public User addUser(User user) {
         userRepository.save(user);
         return user;
+    }
+
+    public Partituur addPartituur(Partituur piece) {
+        partituurRepository.save(piece);
+        return piece;
+    }
+
+    public Partii addPartii(Partii newScore) {
+        partiiRepository.save(newScore);
+        return newScore;
     }
 
     public Stream<User> getUsers() {
@@ -56,6 +68,7 @@ public class DatabaseService {
     public Stream<Partii> getPartiid(int partituur) {
         return stream(partiiRepository.findAllByPartituur_Id(partituur));
     }
+
     public Stream<Partii> getPartiid(Pillimees pillimees, int partituur) {
         return stream(partiiRepository.findAllByPartituur_Id(partituur))
                 .filter(partii -> partii.getPillirühmad().stream()
@@ -86,5 +99,20 @@ public class DatabaseService {
 
     public Optional<Partii> getPartii(int id) {
         return partiiRepository.findById(id);
+    }
+
+    public Optional<Partituur> getPieceByFolder(String pieceFolder) {
+        return getPartituurid()
+                .filter(piece -> piece.getAsukoht().equals(pieceFolder))
+                .findAny();
+    }
+
+    public Optional<Partii> getScoreByFolderAndFilename(String pieceFolder, String filename) {
+        return getPieceByFolder(pieceFolder)
+                .map(Partituur::getPartiid)
+                .stream()
+                .flatMap(List::stream)
+                .filter(partii -> partii.getFail().equals(filename))
+                .findAny();
     }
 }
