@@ -6,6 +6,8 @@ import ee.ut.pillime.noodid.db.Partii;
 import ee.ut.pillime.noodid.db.Partituur;
 import ee.ut.pillime.noodid.db.Repertuaar;
 import ee.ut.pillime.noodid.scores.ScoreService;
+import ee.ut.pillime.noodid.statistics.StatisticsResult;
+import ee.ut.pillime.noodid.statistics.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static ee.ut.pillime.noodid.auth.AuthService.ROLE_ADMIN;
+
 @RestController
 @CrossOrigin(allowCredentials = "true")
 @RequiredArgsConstructor
@@ -28,6 +32,7 @@ public class API {
     private final AuthService authService;
     private final DatabaseService databaseService;
     private final ScoreService scoreService;
+    private final StatisticsService statisticsService;
 
     @GetMapping("/api/repertuaarid")
     private Stream<Repertuaar> getRepertuaar() {
@@ -54,7 +59,10 @@ public class API {
 
     @GetMapping("/api/partii/{partii}")
     private void getPartii(HttpServletResponse response, @PathVariable int partii) throws IOException {
-        Optional<Partii> scoreOptional = databaseService.getPartii(authService.getPillimees().orElse(null), partii);
+        Optional<Partii> scoreOptional = authService.hasRole(ROLE_ADMIN)
+                ? databaseService.getPartii(partii)
+                : databaseService.getPartii(authService.getPillimees().orElse(null), partii);
+
         if (!scoreOptional.isPresent()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             response.flushBuffer();
@@ -62,6 +70,11 @@ public class API {
         }
 
         scoreService.findScoreImage(response, scoreOptional.get());
+    }
+
+    @GetMapping("/api/statistics")
+    private StatisticsResult getStatistics() throws IOException {
+        return statisticsService.getStatistics();
     }
 
     /*private Map<String, String> personalcodes = Map.of("kristjan", "39803142763", "gregor", "39806170815");

@@ -37,7 +37,7 @@ class Players extends Component {
                   <TableCell component='th' scope='row'>{p.nimi}</TableCell>
                   <TableCell>{p.kontaktinfo}</TableCell>
                   <TableCell>{p.pillirühmad.map(pr => (
-                    <Chip key={pr.id} label={pr.nimi} className='instrumentChip' />
+                    <Chip key={pr.id} label={pr.nimi} className='labelChip' />
                   ))}</TableCell>
                 </TableRow>
               );

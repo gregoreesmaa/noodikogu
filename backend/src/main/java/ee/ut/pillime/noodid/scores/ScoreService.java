@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -32,9 +33,12 @@ public class ScoreService {
 
             InputStream is = Files.newInputStream(scoreImage);
             IOUtils.copy(is, response.getOutputStream());
+        } catch (NoSuchFileException e) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            log.error("Score file not found", e);
         } catch (IOException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            e.printStackTrace();
+            log.error("Failed to find score", e);
         }
     }
 
