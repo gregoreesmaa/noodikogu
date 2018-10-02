@@ -42,7 +42,6 @@ public class AdminAPI {
 
     @PostMapping("/api/admin/pillimehed")
     private void addPlayer(@RequestParam("newPlayerName") String name, @RequestParam("newPlayerInfo") String info) {
-        System.out.println("nimi: " + name + "; info: " + info);
         Pillimees newPlayer = new Pillimees();
         newPlayer.setNimi(name);
         newPlayer.setKontaktinfo(info);
