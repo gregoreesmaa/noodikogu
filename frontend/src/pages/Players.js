@@ -12,7 +12,7 @@ import {playersLoaded} from '../state';
 
 
 class Players extends Component {
-  flutePlayers = 0;
+  state = {flutePlayers: 0};
 
   constructor(props) {
     super(props);
@@ -20,7 +20,7 @@ class Players extends Component {
     this.componentDidUpdate({});
 
     AdminService.getFlutePlayers()
-      .then(response => this.flutePlayers = response.data);
+      .then(response => this.setState({flutePlayers: response.data}));
   }
 
   render() {
@@ -41,17 +41,18 @@ class Players extends Component {
                     <TableCell component='th' scope='row'>{p.nimi}</TableCell>
                     <TableCell>{p.kontaktinfo}</TableCell>
                     <TableCell>{p.pillirühmad.map(pr => (
-                      <Chip key={pr.id} label={pr.nimi} className='labelChip' />
+                      <Chip key={pr.id} label={pr.nimi} className='labelChip'/>
                     ))}</TableCell>
                   </TableRow>
                 );
               })}
             </TableBody>
           </Table>
-          <div class="playerContainer">Flöödimängijaid orkestris on {this.flutePlayers}</div>
+          <div class="playerContainer">Flöödimängijaid orkestris
+            on {this.state.flutePlayers}</div>
         </div>
       )
-      : (<div />);
+      : (<div/>);
   }
 
   componentDidUpdate(prevProps) {
@@ -62,7 +63,7 @@ class Players extends Component {
   }
 }
 
-const mapStateToProps = ({ players, user }) => ({ players, user });
-const mapDispatchToProps = dispatch => bindActionCreators({ playersLoaded }, dispatch);
+const mapStateToProps = ({players, user}) => ({players, user});
+const mapDispatchToProps = dispatch => bindActionCreators({playersLoaded}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Players);
