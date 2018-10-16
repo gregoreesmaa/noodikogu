@@ -31,3 +31,4 @@ server:
 spring.mail:
   host: 192.168.1.2
   port: 25
+regJwtSecret: jsvIZnFRVJEwP7nu8Mn4SUMt3bNCOvE0
