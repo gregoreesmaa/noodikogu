@@ -16,5 +16,5 @@ export default {
   search: (query) => api.get('otsi/' + encodeURIComponent(query)),
   addPartituur: (form) => api.post('partituur', form, {headers: {'content-type': 'multipart/form-data'}}),
   addNewPlayer: (newPlayer) => api.post('pillimehed', newPlayer),
-  getFlutePlayers: () => api.get('flutePlayers')
+  getFlutePlayers: () => api.get('flutePlayers'),
 }

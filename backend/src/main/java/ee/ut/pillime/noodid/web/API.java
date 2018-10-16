@@ -1,24 +1,22 @@
 package ee.ut.pillime.noodid.web;
 
 import ee.ut.pillime.noodid.auth.AuthService;
-import ee.ut.pillime.noodid.db.DatabaseService;
-import ee.ut.pillime.noodid.db.Partii;
-import ee.ut.pillime.noodid.db.Partituur;
-import ee.ut.pillime.noodid.db.Repertuaar;
+import ee.ut.pillime.noodid.db.*;
 import ee.ut.pillime.noodid.scores.ScoreService;
 import ee.ut.pillime.noodid.statistics.StatisticsResult;
 import ee.ut.pillime.noodid.statistics.StatisticsService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,6 +26,9 @@ import static ee.ut.pillime.noodid.auth.AuthService.ROLE_ADMIN;
 @CrossOrigin(allowCredentials = "true")
 @RequiredArgsConstructor
 public class API {
+
+    @Value("${regJwtSecret}")
+    private String regJwtSecret;
 
     private final AuthService authService;
     private final DatabaseService databaseService;
@@ -75,6 +76,22 @@ public class API {
     @GetMapping("/api/statistics")
     private StatisticsResult getStatistics() throws IOException {
         return statisticsService.getStatistics();
+    }
+
+    @PostMapping("/api/user")
+    private void addUser(@RequestParam String username, @RequestParam String password, @RequestParam String jwt) {
+        User user = new User();
+        user.setKasutajanimi(username);
+        int pillimeheId = Jwts.parser()
+                .setSigningKey(Keys.hmacShaKeyFor(regJwtSecret.getBytes()))
+                .parseClaimsJws(jwt)
+                .getBody()
+                .get("pillimeheId", Integer.class);
+        user.setPillimees(databaseService.getPillimees(pillimeheId).orElseThrow(() -> new RuntimeException("Pillimeest ei eksisteeri")));
+        String salt = UUID.randomUUID().toString();
+        user.setParool(authService.saltPassword(password, salt));
+        user.setSalt(salt);
+        databaseService.addUser(user);
     }
 
     /*private Map<String, String> personalcodes = Map.of("kristjan", "39803142763", "gregor", "39806170815");

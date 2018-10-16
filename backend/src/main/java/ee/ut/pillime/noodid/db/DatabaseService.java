@@ -136,4 +136,8 @@ public class DatabaseService {
                 .filter(partii -> partii.getFail().equals(filename))
                 .findAny();
     }
+
+    public Optional<Pillimees> getPillimees(int pillimeheId) {
+        return pillimeesRepository.findById(pillimeheId);
+    }
 }

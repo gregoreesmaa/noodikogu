@@ -5,9 +5,9 @@ import ee.ut.pillime.noodid.notification.NotificationService;
 import ee.ut.pillime.noodid.scores.PieceService;
 import ee.ut.pillime.noodid.scores.ScoreService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import lombok.extern.log4j.Log4j2;
 
 import java.util.stream.Stream;
 

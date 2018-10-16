@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
 import {Switch, withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {PropsRoute} from './Common';
 import {AdminService, BackendService} from './services';
-import {touchscreenDetected, logOut} from './state';
+import {touchscreenDetected} from './state';
 import {Menu} from './components';
-import {Library, Login, Piece} from './pages';
+import {Library, Login, MakeUser, Piece} from './pages';
 import {AdminPieces, AdminPlayers, AdminPlaylists} from './pages/admin';
 import './App.css';
 import Players from "./pages/Players";
-import {IntlProvider, addLocaleData} from "react-intl";
+import {addLocaleData, IntlProvider} from "react-intl";
 import et from 'react-intl/locale-data/et';
 import messages_et_simplified from "./translations/et-simplified.json";
 import messages_et from "./translations/et.json";
+import {bindActionCreators} from "redux";
+import {logOut} from "./state/reducers";
+import connect from "react-redux/es/connect/connect";
 
 addLocaleData([...et]);
 addLocaleData({
@@ -73,10 +74,17 @@ class App extends Component {
       'et': messages_et,
       'et-simplified': messages_et_simplified
     };
-    console.log(messages);
+
     return <IntlProvider locale={this.props.locale} messages={messages[this.props.locale]}>
       {!this.props.user
-        ? (<Login/>)
+        ? (
+          <div>
+            <Switch>
+              <PropsRoute exact path='/registreeru/:jwt' component={MakeUser}/>
+              <PropsRoute path='/' component={Login}/>
+            </Switch>
+          </div>
+        )
         : (
           <div>
             <Menu/>

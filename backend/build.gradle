@@ -48,4 +48,8 @@ dependencies {
     runtime 'org.postgresql:postgresql:42.2.5'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
+
+    compile 'io.jsonwebtoken:jjwt-api:0.10.5'
+    runtime 'io.jsonwebtoken:jjwt-impl:0.10.5',
+            'io.jsonwebtoken:jjwt-jackson:0.10.5'
 }
