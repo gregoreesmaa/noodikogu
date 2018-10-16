@@ -33,9 +33,13 @@ public class AuthService {
 
     private final DatabaseService databaseService;
 
+    public String saltPassword(String password, String salt) {
+        return org.apache.commons.codec.digest.DigestUtils.sha512Hex(password + '.' + salt);
+    }
+
     public AuthToken authenticate(Credentials credentials) {
         User u = databaseService.getUser(credentials.getUsername())
-                .filter(user -> user.getParool().equals(credentials.getPassword(user.getSalt())))
+                .filter(user -> user.getParool().equals(saltPassword(credentials.getPassword(), user.getSalt())))
                 .orElseThrow(AuthException::new);
 
         return new AuthToken(u, credentials, AUTHORITIES.getOrDefault(u.getTase(), AuthorityUtils.NO_AUTHORITIES));
