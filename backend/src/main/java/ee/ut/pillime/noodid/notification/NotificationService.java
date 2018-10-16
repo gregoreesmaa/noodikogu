@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,17 +22,20 @@ public class NotificationService {
 
     private final JavaMailSender emailSender;
 
+    @Value("${regJwtSecret}")
+    private String regJwtSecret;
+
     public void sendRegistrationInfo(Pillimees player) {
         try {
             String jwt = Jwts.builder()
                     .setSubject(player.getKontaktinfo())
                     .setIssuedAt(Date.from(Instant.now()))
                     .claim("pillimeheId", player.getId())
-                    .signWith(Keys.hmacShaKeyFor("secret000000000000000000000000000000000000000000000000000000000000000000000".getBytes()), //TODO muuda parool
+                    .signWith(Keys.hmacShaKeyFor(regJwtSecret.getBytes()),
                             SignatureAlgorithm.HS256)
                     .compact();
             String jwtUrl = "https://noodid.ninata.ga/registreeru/" + jwt;
-            System.out.println(jwtUrl);
+            log.info("Sent registration url to player: {}", jwtUrl);
 
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom("Noodikogu <noreply@noodid.ninata.ga>");

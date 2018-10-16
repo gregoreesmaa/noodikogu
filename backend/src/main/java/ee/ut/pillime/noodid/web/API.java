@@ -8,6 +8,7 @@ import ee.ut.pillime.noodid.statistics.StatisticsService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +26,9 @@ import static ee.ut.pillime.noodid.auth.AuthService.ROLE_ADMIN;
 @CrossOrigin(allowCredentials = "true")
 @RequiredArgsConstructor
 public class API {
+
+    @Value("${regJwtSecret}")
+    private String regJwtSecret;
 
     private final AuthService authService;
     private final DatabaseService databaseService;
@@ -79,7 +83,7 @@ public class API {
         User user = new User();
         user.setKasutajanimi(username);
         int pillimeheId = Jwts.parser()
-                .setSigningKey(Keys.hmacShaKeyFor("secret000000000000000000000000000000000000000000000000000000000000000000000".getBytes())) //TODO muuda parool
+                .setSigningKey(Keys.hmacShaKeyFor(regJwtSecret.getBytes()))
                 .parseClaimsJws(jwt)
                 .getBody()
                 .get("pillimeheId", Integer.class);
